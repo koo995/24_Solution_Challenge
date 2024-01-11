@@ -20,7 +20,7 @@
 - Add the original repository where the project was initially created as an upstream source.
   ```sh
   git remote add upstream <original repo address>
-  git remote add upstream https://github.com/jeonghyeonee/24_Solution_Challenge
+  git remote add upstream https://github.com/jeonghyeonee/24_Solution_Challenge.git
   ```
 
 ### 4. Verify Remote Repositories
