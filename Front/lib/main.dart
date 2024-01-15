@@ -3,6 +3,7 @@ import 'package:front_flutter/view/login_page.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'My App',
     home: MyApp(),
   ));
