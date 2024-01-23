@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+class _HomePageState extends State<HomePage> {
+  var tab = 0;
+  final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text("Home"),
-
           actions: [
             IconButton(
               icon: Icon(Icons.search),
@@ -62,14 +67,65 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-
       ),
-      body: Column(
-        children:[
-          Container(),
-
-        ]
+      body:PageView(
+        controller: _pageController,
+        children: [Tab1(), Tab2(), Tab3()],
+        onPageChanged: (index) {
+        setState(() {
+        tab = index;});
+        },
       ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: tab,
+          onTap: (index) {
+            setState(() {
+              tab = index;
+              _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+            ),
+          ],
+        ),
     );
+  }
+}
+
+class Tab1 extends StatelessWidget {
+  const Tab1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class Tab2 extends StatelessWidget {
+  const Tab2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class Tab3 extends StatelessWidget {
+  const Tab3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
