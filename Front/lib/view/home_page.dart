@@ -119,6 +119,47 @@ class _Tab1State extends State<Tab1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Container(
+          margin: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Text(
+                'Total : 20',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('All'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Animal'),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(5),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Plant'),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+
         Expanded(
           child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
