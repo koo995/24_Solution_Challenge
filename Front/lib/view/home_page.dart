@@ -91,24 +91,61 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                label: 'Search',
+                label: 'Achievement',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
+                icon: Icon(Icons.star),
+                label: 'Rank',
             ),
           ],
         ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons. camera_alt),
+      )
     );
   }
 }
 
-class Tab1 extends StatelessWidget {
+class Tab1 extends StatefulWidget {
   const Tab1({super.key});
 
   @override
+  State<Tab1> createState() => _Tab1State();
+}
+
+class _Tab1State extends State<Tab1> {
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        Expanded(
+          child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+              ),
+            itemCount: 20,
+            itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  child: Center(
+                    child: Text(
+                      '$index',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                );
+            }
+          ),
+        )]
+    );
   }
 }
 
