@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:front_flutter/view/challengedetail_page.dart';
+import 'package:front_flutter/view/itemdetail_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -81,7 +83,8 @@ class _HomePageState extends State<HomePage> {
           onTap: (index) {
             setState(() {
               tab = index;
-              _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+              _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 500), curve: Curves.ease);
             });
           },
           items: [
@@ -91,7 +94,7 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                label: 'Achievement',
+                label: 'Challenge',
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.star),
@@ -169,16 +172,23 @@ class _Tab1State extends State<Tab1> {
               ),
             itemCount: 20,
             itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.blue,
-                  child: Center(
-                    child: Text(
-                      '$index',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
+                return InkWell(
+                  onTap: () {Navigator.push(context,
+                      MaterialPageRoute(
+                          builder:(context)=>ItemDetail()
+                      )
+                  );},
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.blue,
+                    child: Center(
+                      child: Text(
+                        '$index',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -195,7 +205,33 @@ class Tab2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children:[
+          Expanded(
+            child: ListView.builder(
+                itemCount: 30,
+                itemBuilder: (context,i){
+                  return Card(
+                    child: InkWell(
+                      child: ListTile(
+                        leading: Icon(Icons.star),
+                        title: Text('Challenge $i'),
+                        subtitle: Text('Challenge $i'),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder:(context)=>ChallengeDetail()
+                              )
+                          );
+                          },
+                      ),
+                    ),
+                  );
+                }
+            ),
+          )
+      ]
+    );
   }
 }
 
