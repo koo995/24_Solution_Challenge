@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_flutter/view/camera_page.dart';
 import 'package:front_flutter/view/challengedetail_page.dart';
 import 'package:front_flutter/view/itemdetail_page.dart';
 
@@ -103,7 +104,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,MaterialPageRoute(builder: (context)=>CameraPage()));
+        },
         child: Icon(Icons. camera_alt),
       )
     );
