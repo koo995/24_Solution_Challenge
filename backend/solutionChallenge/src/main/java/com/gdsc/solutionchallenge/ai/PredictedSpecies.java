@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class PostGeminiResult {
+public class PredictedSpecies {
 
     @JsonProperty("living things")
     private String livingThings;
