@@ -19,8 +19,9 @@ public class UserPostController {
     private final GeminiService geminiService;
 
     @PostMapping("/user-post")
-    public void createPost(@ModelAttribute UserPostRequest userPostRequest) {
+    public PredictedSpecies createPost(@ModelAttribute UserPostRequest userPostRequest) {
         PredictedSpecies predictedSpecies = geminiService.prediction(userPostRequest.getImage()); //todo living things 가 아니면 예외 발생.
         userPostService.createPost(userPostRequest, predictedSpecies.getScientificName());
+        return predictedSpecies;
     }
 }

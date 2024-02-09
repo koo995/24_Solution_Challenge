@@ -50,7 +50,7 @@ public class GeminiService {
             List<Content> contents = new ArrayList<>();
             contents.add(Content.newBuilder()
                     .setRole("user")
-                    .addParts(PartMaker.fromMimeTypeAndData(image.getContentType(), image.getBytes()))
+                    .addParts(PartMaker.fromMimeTypeAndData(image.getContentType(), image.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
                     .addParts(Part.newBuilder().setText("You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nAnd infer the exact scientific name of the creature.\nPlease provide the output in json format with \"living things: true or false\", \"scientific name\" ."))
                     .build());
             GenerateContentResponse generateContentResponse = model.generateContent(contents, safetySettings);
