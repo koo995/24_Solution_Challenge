@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class UserPostRequest {
 
-    private MultipartFile image;
+    private MultipartFile file;
 
-    public UserPostRequest(MultipartFile image) {
-        this.image = image;
+    public UserPostRequest(MultipartFile file) {
+        this.file = file;
     }
 }

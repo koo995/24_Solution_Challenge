@@ -23,9 +23,9 @@ public class UserPostService {
     private final SpeciesRepository speciesRepository;
     private final ImageRepository imageRepository;
 
-    public void createPost(UserPostRequest userPostRequest, String scientificName) {
+    public Long createPost(UserPostRequest userPostRequest, String scientificName) {
 
-        MultipartFile file = userPostRequest.getImage();
+        MultipartFile file = userPostRequest.getFile();
         String uuid = UUID.randomUUID().toString();
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByName(scientificName)
@@ -42,6 +42,7 @@ public class UserPostService {
         userPost.setImage(image);
         speciesRepository.save(species);
         imageRepository.save(image);
-        userPostRepository.save(userPost);
+        UserPost savedPost = userPostRepository.save(userPost);
+        return savedPost.getId();
     }
 }

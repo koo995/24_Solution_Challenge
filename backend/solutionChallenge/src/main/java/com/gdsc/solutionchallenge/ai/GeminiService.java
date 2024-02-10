@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class GeminiService {
 
-    public PredictedSpecies prediction(MultipartFile image) {
+    public PredictedSpecies prediction(MultipartFile file) {
         //todo 여기서 계속 모델을 생성해야 할까? 싱글톤으로 미리 만들어 놓으면 더 빠를 수 있지 않을까
         try (VertexAI vertexAi = new VertexAI("gdsc-seoultech", "asia-northeast3");) {
             GenerationConfig generationConfig =
@@ -50,7 +50,7 @@ public class GeminiService {
             List<Content> contents = new ArrayList<>();
             contents.add(Content.newBuilder()
                     .setRole("user")
-                    .addParts(PartMaker.fromMimeTypeAndData(image.getContentType(), image.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
+                    .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
                     .addParts(Part.newBuilder().setText("You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nAnd infer the exact scientific name of the creature.\nPlease provide the output in json format with \"living things: true or false\", \"scientific name\" ."))
                     .build());
             GenerateContentResponse generateContentResponse = model.generateContent(contents, safetySettings);
