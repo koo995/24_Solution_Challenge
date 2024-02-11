@@ -18,7 +18,7 @@ public class Species {
 
     private String name;
 
-    @OneToMany(mappedBy = "species", cascade = CascadeType.ALL) // 종이 사라진다면 그에 해당하는 이미지도 사라져야겠에
+    @OneToMany(mappedBy = "species", cascade = CascadeType.ALL)
     private List<Image> image = new ArrayList<>();
 
     @Builder

@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -18,7 +16,9 @@ public class Image extends BaseEntity{
     @Column(name = "image_id")
     private Long id;
 
-    private String image_title;
+    private String uploadFileName;
+
+    private String storeFileName;
 
     private String type;
 
@@ -29,8 +29,9 @@ public class Image extends BaseEntity{
 
     // 연관관계 메서드
     @Builder
-    public Image(String image_title, String type, Species species) {
-        this.image_title = image_title;
+    public Image(String uploadFileName, String storeFileName, String type) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
         this.type = type;
     }
 
