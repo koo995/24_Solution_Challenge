@@ -21,7 +21,7 @@ public class UserPostController {
     private final UserPostService userPostService;
     private final GeminiService geminiService;
 
-    @PostMapping("/user-post")
+    @PostMapping(value = "/user-post", consumes = {"multipart/form-data"} )
     public UserPostResponse createPost(@ModelAttribute UserPostRequest userPostRequest) throws IOException {
         // gemini
         PredictedSpecies predictedSpecies = geminiService.prediction(userPostRequest.getFile()); //todo living things 가 아니면 예외 발생.
