@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.app.dto.response;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,17 +8,20 @@ import lombok.Setter;
 @Getter
 public class UserPostResponse {
 
-    private Long postId;
+    public static final String API_V_1_IMAGE = "/api/v1/image/";
 
-    private String livingThings;
+    private Long imageId;
 
     private String scientificName;
 
+    private String redirectUrl = API_V_1_IMAGE;
+
     // todo 학명을 한국어로 디비에서 매칭시켜서 전달.
 
-    public UserPostResponse(Long postId, String livingThings, String scientificName) {
-        this.postId = postId;
-        this.livingThings = livingThings;
+    @Builder
+    public UserPostResponse(Long imageId, String scientificName) {
+        this.imageId = imageId;
         this.scientificName = scientificName;
+        this.redirectUrl += imageId;
     }
 }

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface SpeciesRepository extends JpaRepository<Species, Long> {
 
-    Optional<Species> findByName(String name);
+    Optional<Species> findByScientificName(String name);
 }
