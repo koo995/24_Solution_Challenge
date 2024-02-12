@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "153751853428",
+    "project_id": "solchall-57053",
+    "storage_bucket": "solchall-57053.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153751853428:android:b69e2270486b92c8b1b421",
+        "android_client_info": {
+          "package_name": "com.example.front_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153751853428-0gq6lev66dp69cflvq3cd20c8elek174.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkqFHRmITpUAgGB4kGYngE380I8YWIM9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153751853428-0gq6lev66dp69cflvq3cd20c8elek174.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "153751853428-35og7fc59fd5835m6cilgm680m8nev35.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.frontFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

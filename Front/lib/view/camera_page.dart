@@ -36,11 +36,17 @@ class _CameraPageState extends State<CameraPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
+            margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+            ),
             width: 500,
             height: 500,
-            child: _image == null
-                ? Text('이미지가 없습니다.')
-                : Image.file(_image!),
+            child: Center(
+              child: _image == null
+                  ? Text('이미지가 없습니다.')
+                  : Image.file(_image!),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
