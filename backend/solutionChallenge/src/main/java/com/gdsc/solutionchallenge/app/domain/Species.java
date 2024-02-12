@@ -16,14 +16,14 @@ public class Species {
     @Column(name = "species_id")
     private Long id;
 
-    private String name;
+    private String scientificName;
 
     @OneToMany(mappedBy = "species", cascade = CascadeType.ALL)
     private List<Image> image = new ArrayList<>();
 
     @Builder
-    public Species(String name) {
-        this.name = name;
+    public Species(String scientificName) {
+        this.scientificName = scientificName;
     }
 
     public void addImage(Image image) {
