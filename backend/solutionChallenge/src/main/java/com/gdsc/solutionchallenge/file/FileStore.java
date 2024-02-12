@@ -21,8 +21,9 @@ public class FileStore {
     public String storeFile(MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFileName))); // todo gcs로 저장해야함
-        return storeFileName;
+        String fullPath = getFullPath(storeFileName);
+        multipartFile.transferTo(new File(fullPath)); // todo gcs로 저장해야함
+        return fullPath;
     }
 
     private String createStoreFileName(String originalFilename) {

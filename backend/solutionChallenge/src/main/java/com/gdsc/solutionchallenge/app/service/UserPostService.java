@@ -32,11 +32,11 @@ public class UserPostService {
         Species species = speciesRepository.findByName(scientificName)
                 .orElse(new Species(scientificName));
         // 이미지 저장
-        String storedFileName = fileStore.storeFile(file);
+        String fullPath = fileStore.storeFile(file);
         // todo 이미지 파일에서 썸네일 만들기.
         Image image = Image.builder()
                 .uploadFileName(file.getName())
-                .storeFileName(storedFileName)
+                .fullPath(fullPath)
                 .type(file.getContentType())
                 .build();
         image.setSpecies(species);

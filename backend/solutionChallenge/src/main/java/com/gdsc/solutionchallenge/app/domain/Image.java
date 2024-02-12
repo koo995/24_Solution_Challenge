@@ -18,7 +18,7 @@ public class Image extends BaseEntity{
 
     private String uploadFileName;
 
-    private String storeFileName;
+    private String fullPath;
 
     private String type;
 
@@ -29,9 +29,9 @@ public class Image extends BaseEntity{
 
     // 연관관계 메서드
     @Builder
-    public Image(String uploadFileName, String storeFileName, String type) {
+    public Image(String uploadFileName, String fullPath, String type) {
         this.uploadFileName = uploadFileName;
-        this.storeFileName = storeFileName;
+        this.fullPath = fullPath;
         this.type = type;
     }
 
