@@ -4,6 +4,11 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  # todo nginx와 같은 리버스 프록시 서버에도 크기 설정을 해줘야 함.
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
   jpa:
     hibernate:
