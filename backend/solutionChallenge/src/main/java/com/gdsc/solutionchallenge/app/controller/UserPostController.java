@@ -3,18 +3,13 @@ package com.gdsc.solutionchallenge.app.controller;
 import com.gdsc.solutionchallenge.ai.GeminiService;
 import com.gdsc.solutionchallenge.ai.PredictedResult;
 import com.gdsc.solutionchallenge.app.dto.request.UserPostRequest;
-import com.gdsc.solutionchallenge.app.dto.response.UserPostResponse;
 import com.gdsc.solutionchallenge.app.service.UserPostService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor

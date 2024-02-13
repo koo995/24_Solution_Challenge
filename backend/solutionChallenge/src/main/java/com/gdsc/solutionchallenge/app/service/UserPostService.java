@@ -5,7 +5,6 @@ import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.domain.UserPost;
 import com.gdsc.solutionchallenge.app.dto.request.UserPostRequest;
-import com.gdsc.solutionchallenge.app.dto.response.UserPostResponse;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.app.repository.UserPostRepository;
@@ -16,9 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional
