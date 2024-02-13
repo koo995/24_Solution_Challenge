@@ -14,7 +14,7 @@ public class ImageDetailResponse {
 
     private String url;
 
-    private LocalDateTime created_at;
+    private String created_at;
     //todo geoJson을 활용한 이미지 좌표 데이터도 전달해야함.
 
 
