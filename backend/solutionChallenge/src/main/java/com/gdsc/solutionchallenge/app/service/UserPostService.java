@@ -28,7 +28,7 @@ public class UserPostService {
     private final ImageRepository imageRepository;
     private final FileStore fileStore;
 
-    public UserPostResponse createPost(UserPostRequest userPostRequest, PredictedResult predictedResult) throws IOException {
+    public Long createPost(UserPostRequest userPostRequest, PredictedResult predictedResult) throws IOException {
         MultipartFile file = userPostRequest.getFile();
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
@@ -49,8 +49,6 @@ public class UserPostService {
         speciesRepository.save(species);
         Long imageId = imageRepository.save(image).getId();
         userPostRepository.save(userPost);
-        return UserPostResponse.builder()
-                .imageId(imageId)
-                .scientificName(species.getScientificName()).build();
+        return imageId;
     }
 }
