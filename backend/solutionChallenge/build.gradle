@@ -41,6 +41,9 @@ dependencies {
 	implementation platform('com.google.cloud:libraries-bom:26.30.0')
 	// vertexAI 설정
 	implementation 'com.google.cloud:google-cloud-vertexai:0.1.0'
+
+	// metadata-extractor
+	implementation 'com.drewnoakes:metadata-extractor:2.16.0'
 }
 
 //Querydsl 추가, 자동 생성된 Q클래스 gradle clean으로 제거

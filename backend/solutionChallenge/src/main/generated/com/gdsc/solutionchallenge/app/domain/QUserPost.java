@@ -25,7 +25,7 @@ public class QUserPost extends EntityPathBase<UserPost> {
     public final QBaseEntity _super = new QBaseEntity(this);
 
     //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+    public final StringPath createdDate = _super.createdDate;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

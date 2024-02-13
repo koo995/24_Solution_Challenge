@@ -1,5 +1,7 @@
 package com.gdsc.solutionchallenge.app.domain;
 
+import com.gdsc.solutionchallenge.app.domain.converter.LatLngConverter;
+import com.google.type.LatLng;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,18 +28,21 @@ public class Image extends BaseEntity{
     @JoinColumn(name = "species_id")
     private Species species;
 
+    @Convert(converter = LatLngConverter.class)
+    private LatLng latLng;
+
 
     // 연관관계 메서드
     @Builder
-    public Image(String uploadFileName, String fullPath, String type) {
+    public Image(String uploadFileName, String fullPath, String type, LatLng latLng) {
         this.uploadFileName = uploadFileName;
         this.fullPath = fullPath;
         this.type = type;
+        this.latLng = latLng;
     }
 
     public void setSpecies(Species species) {
         this.species = species;
         species.addImage(this);
-
     }
 }

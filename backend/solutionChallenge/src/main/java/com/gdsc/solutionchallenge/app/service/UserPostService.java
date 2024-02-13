@@ -10,6 +10,8 @@ import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.app.repository.UserPostRepository;
 import com.gdsc.solutionchallenge.file.FileStore;
+import com.gdsc.solutionchallenge.utils.ImgMetaDataExtractor;
+import com.google.type.LatLng;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +30,21 @@ public class UserPostService {
     private final ImageRepository imageRepository;
     private final FileStore fileStore;
 
-    public Long createPost(UserPostRequest userPostRequest, PredictedResult predictedResult) throws IOException {
+    public Long createPost(UserPostRequest userPostRequest, PredictedResult predictedResult) throws Exception {
         MultipartFile file = userPostRequest.getFile();
+        // 메타데이터 추출.
+        LatLng latLng = ImgMetaDataExtractor.extractLatLng(file);
+        // 이미지 저장
+        String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
                 .orElse(new Species(predictedResult.getScientificName()));
-        // 이미지 저장
-        String fullPath = fileStore.storeFile(file);
         // todo 이미지 파일에서 썸네일 만들기.
         Image image = Image.builder()
                 .uploadFileName(file.getOriginalFilename())
                 .fullPath(fullPath)
                 .type(file.getContentType())
+                .latLng(latLng)
                 .build();
         image.setSpecies(species);
 

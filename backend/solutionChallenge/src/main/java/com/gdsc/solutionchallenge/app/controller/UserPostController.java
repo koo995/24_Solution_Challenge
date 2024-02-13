@@ -25,7 +25,7 @@ public class UserPostController {
     private final GeminiService geminiService;
 
     @PostMapping(value = "/api/v1/user-post", consumes = {"multipart/form-data"} )
-    public String createPost(@ModelAttribute UserPostRequest userPostRequest, RedirectAttributes redirectAttributes) throws IOException { // todo Maximum upload size
+    public String createPost(@ModelAttribute UserPostRequest userPostRequest, RedirectAttributes redirectAttributes) throws Exception { // todo Maximum upload size
         // gemini
         PredictedResult predictedResult = geminiService.prediction(userPostRequest.getFile()); //todo living things 가 아니면 예외 발생.
         // 포스트 생성
