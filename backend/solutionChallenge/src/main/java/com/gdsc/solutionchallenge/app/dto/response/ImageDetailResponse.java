@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.google.type.LatLng;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class ImageDetailResponse {
@@ -13,6 +12,9 @@ public class ImageDetailResponse {
     private String scientificName;
 
     private String url;
+
+    @JsonProperty("image_id")
+    private Long imageId;
 
     @JsonProperty("created_at")
     private String createdAt;
@@ -36,5 +38,6 @@ public class ImageDetailResponse {
         this.url = image.getFullPath();
         this.createdAt = image.getCreatedDate();
         this.location = new CustomLatLng(image.getLatLng());
+        this.imageId = image.getId();
     }
 }
