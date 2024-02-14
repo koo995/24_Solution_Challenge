@@ -1,44 +1,48 @@
 package com.gdsc.solutionchallenge.auth.interceptor;
 
+import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
+import com.gdsc.solutionchallenge.member.domain.Member;
+import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
+@RequiredArgsConstructor
 public class FirebaseTokenInterceptor implements HandlerInterceptor {
+
+    private final MemberRepository memberRepository;
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         FirebaseToken decodedToken;
         String header = request.getHeader("Authorization");
-        log.info("header={}", header);
         if (header == null || !header.startsWith("Bearer ")) {
-            log.info("first");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // todo 예외 처리 똑바로 하자.
-            return false;
+            throw new UnAuthorizedException();
         }
         String token = header.split(" ")[1];
-//        String token = header.substring(7);
-        log.info("token={}", token);
-
         // verify IdToken
         try{
             decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
         } catch (FirebaseAuthException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            System.out.println("e.getMessage() = " + e.getMessage());
-            return false;
+            throw new UnAuthorizedException();
         }
-        log.info("decoded token={}", decodedToken);
-        log.info("decoded getUid={}", decodedToken.getUid());
-        log.info("decoded getEmail={}", decodedToken.getEmail());
-        log.info("decoded getIssuer={}", decodedToken.getIssuer());
-        log.info("decoded getPicture={}", decodedToken.getPicture());
+        String uid = decodedToken.getUid();
+        Member member = memberRepository.findByUid(uid)
+                .orElse(Member.builder()
+                        .username(decodedToken.getName())
+                        .email(decodedToken.getEmail())
+                        .uid(uid)
+                        .build());
+        // 여기서 member을 영속화하는 것이 좋은 방법일까?
+        memberRepository.save(member);
+        request.setAttribute("loginMember", member);
         return true;
     }
 }
