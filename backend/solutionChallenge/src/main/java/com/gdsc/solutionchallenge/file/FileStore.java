@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.file;
 
+import com.gdsc.solutionchallenge.file.exception.FileSaveException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,11 +19,15 @@ public class FileStore {
         return fileDir + filename;
     }
 
-    public String storeFile(MultipartFile multipartFile) throws IOException {
+    public String storeFile(MultipartFile multipartFile) {
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
         String fullPath = getFullPath(storeFileName);
-        multipartFile.transferTo(new File(fullPath)); // todo gcs로 저장해야함
+        try {
+            multipartFile.transferTo(new File(fullPath)); // todo gcs로 저장해야함
+        } catch (IOException e) {
+            throw new FileSaveException();
+        }
         return fullPath;
     }
 

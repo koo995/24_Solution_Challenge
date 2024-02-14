@@ -19,7 +19,7 @@ public class ImageController {
 
 
     @PostMapping("/api/v1/image")
-    public String create(@ModelAttribute UserImageRequest userImageRequest, RedirectAttributes redirectAttributes) throws Exception {
+    public String create(@ModelAttribute UserImageRequest userImageRequest, RedirectAttributes redirectAttributes) {
         // gemini
         PredictedResult prediction = geminiService.prediction(userImageRequest.getFile());// todo living things가 아니라면 예외
         // 이미지포스트생성

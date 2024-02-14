@@ -1,10 +1,13 @@
 package com.gdsc.solutionchallenge.ai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdsc.solutionchallenge.ai.exception.GeminiException;
+import com.gdsc.solutionchallenge.ai.exception.NoCreatureException;
 import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.api.*;
 import com.google.cloud.vertexai.generativeai.preview.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.preview.PartMaker;
+import io.grpc.StatusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,10 +60,12 @@ public class GeminiService {
             String text = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
             ObjectMapper objectMapper = new ObjectMapper(); // todo objectMapper()말고 resolver을 활용하면 어떨까
             PredictedResult predictedResult = objectMapper.readValue(text, PredictedResult.class);
+            if (predictedResult.getLivingThings() == "false") {
+                throw new NoCreatureException();
+            }
             return predictedResult;
-
-        } catch (IOException e) {
-            throw new RuntimeException("제미니 실행도중 에러", e);
+        } catch (Exception e) {
+            throw new GeminiException("image", e.getMessage());
         }
     }
 }

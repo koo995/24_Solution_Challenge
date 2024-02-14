@@ -5,6 +5,8 @@ import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
+import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
+import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.file.FileStore;
@@ -24,14 +26,19 @@ public class ImageService {
 
     public ImageDetailResponse findImageById(Long imageId) {
         Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new RuntimeException(" 찾으시는 이미지가 없어요"));
+                .orElseThrow(() -> new ImageNotFoundException(String.valueOf(imageId)));
         return new ImageDetailResponse(image);
     }
 
-    public Long create(UserImageRequest userImageRequest, PredictedResult predictedResult) throws Exception {
+    public Long create(UserImageRequest userImageRequest, PredictedResult predictedResult){
         MultipartFile file = userImageRequest.getFile();
         // 메타데이터 추출.
-        LatLng latLng = ImgMetaDataExtractor.extractLatLng(file);
+        LatLng latLng;
+        try {
+            latLng = ImgMetaDataExtractor.extractLatLng(file);
+        } catch (Exception e) {
+            throw new NoLatLngException();
+        }
         // 이미지 저장
         String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
