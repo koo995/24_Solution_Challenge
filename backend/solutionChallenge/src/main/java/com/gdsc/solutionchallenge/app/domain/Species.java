@@ -18,6 +18,8 @@ public class Species {
 
     private String scientificName;
 
+    // todo 한글명, description이 필요
+
     @OneToMany(mappedBy = "species", cascade = CascadeType.ALL)
     private List<Image> image = new ArrayList<>();
 

@@ -1,6 +1,6 @@
 package com.gdsc.solutionchallenge.app.service;
 
-import com.gdsc.solutionchallenge.ai.PredictedResult;
+import com.gdsc.solutionchallenge.ai.dto.PredictedResult;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;

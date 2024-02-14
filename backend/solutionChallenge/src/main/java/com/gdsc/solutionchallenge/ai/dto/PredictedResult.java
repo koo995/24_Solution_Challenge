@@ -1,4 +1,4 @@
-package com.gdsc.solutionchallenge.ai;
+package com.gdsc.solutionchallenge.ai.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
