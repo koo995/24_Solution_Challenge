@@ -3,36 +3,34 @@ package com.gdsc.solutionchallenge.auth.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
 @Slf4j
-@Configuration
+@Component
 public class FirebaseInitializer {
 
-    @Bean
-    public FirebaseApp firebaseApp() throws IOException {
+    @Value("${firebase.credential.resource-path}")
+    private String keyPath;
+
+    @PostConstruct
+    public void firebaseApp() throws IOException {
+        Resource resource = new ClassPathResource(keyPath);
         log.info("Initializing Firebase.");
         FileInputStream serviceAccount =
-                new FileInputStream("./firebase.json");
-
+                new FileInputStream(resource.getFile());
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .build();
 
         FirebaseApp app = FirebaseApp.initializeApp(options);
         log.info("FirebaseApp initialized" + app.getName());
-        return app;
-    }
-
-    @Bean
-    public FirebaseAuth getFirebaseAuth() throws IOException {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance(firebaseApp());
-        return firebaseAuth;
     }
 }

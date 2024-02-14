@@ -38,4 +38,4 @@ out/
 
 
 ### firebase ###
-firebase.json
+src/main/resources/firebase.json

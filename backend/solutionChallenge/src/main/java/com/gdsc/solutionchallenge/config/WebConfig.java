@@ -10,13 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final FirebaseTokenInterceptor firebaseTokenInterceptor;
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(firebaseTokenInterceptor)
+        registry.addInterceptor(new FirebaseTokenInterceptor())
                 .order(1)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/error");
+                .excludePathPatterns("/**");
     }
 }
