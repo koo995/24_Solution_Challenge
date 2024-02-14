@@ -4,6 +4,7 @@ import com.gdsc.solutionchallenge.ai.exception.GeminiException;
 import com.gdsc.solutionchallenge.ai.exception.NoCreatureException;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
+import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,16 @@ public class ExceptionController {
                 .code(String.valueOf(e.getStatusCode()))
                 .message(e.getMessage())
                 .validation(e.getValidation())
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ErrorResponse UnAuthorizedExceptionHandler(UnAuthorizedException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
                 .build();
         return response;
     }
