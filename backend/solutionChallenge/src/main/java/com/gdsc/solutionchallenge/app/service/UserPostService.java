@@ -4,7 +4,7 @@ import com.gdsc.solutionchallenge.ai.PredictedResult;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.domain.UserPost;
-import com.gdsc.solutionchallenge.app.dto.request.UserPostRequest;
+import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.app.repository.UserPostRepository;
@@ -26,8 +26,8 @@ public class UserPostService {
     private final ImageRepository imageRepository;
     private final FileStore fileStore;
 
-    public Long createPost(UserPostRequest userPostRequest, PredictedResult predictedResult) throws Exception {
-        MultipartFile file = userPostRequest.getFile();
+    public Long createPost(UserImageRequest userImageRequest, PredictedResult predictedResult) throws Exception {
+        MultipartFile file = userImageRequest.getFile();
         // 메타데이터 추출.
         LatLng latLng = ImgMetaDataExtractor.extractLatLng(file);
         // 이미지 저장

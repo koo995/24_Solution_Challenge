@@ -19,7 +19,18 @@ public class QMember extends EntityPathBase<Member> {
 
     public static final QMember member = new QMember("member1");
 
+    public final com.gdsc.solutionchallenge.common.domain.QBaseEntity _super = new com.gdsc.solutionchallenge.common.domain.QBaseEntity(this);
+
+    //inherited
+    public final StringPath createdDate = _super.createdDate;
+
+    public final StringPath email = createString("email");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final NumberPath<Integer> score = createNumber("score", Integer.class);
+
+    public final StringPath username = createString("username");
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));
