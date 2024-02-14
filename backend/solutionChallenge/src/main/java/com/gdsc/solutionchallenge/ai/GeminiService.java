@@ -7,6 +7,7 @@ import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.api.*;
 import com.google.cloud.vertexai.generativeai.preview.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.preview.PartMaker;
+import io.grpc.StatusRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,9 +64,8 @@ public class GeminiService {
                 throw new NoCreatureException();
             }
             return predictedResult;
-        } catch (IOException e) {
-            log.info(e.toString());
+        } catch (Exception e) {
+            throw new GeminiException("image", e.getMessage());
         }
-        return null;
     }
 }
