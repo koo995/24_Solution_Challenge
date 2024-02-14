@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new FirebaseTokenInterceptor(memberRepository))
+        registry.addInterceptor(new FirebaseTokenInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/error", "/error-page/**");
@@ -27,6 +27,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginMemberArgResolver());
+        resolvers.add(new LoginMemberArgResolver(memberRepository));
     }
 }
