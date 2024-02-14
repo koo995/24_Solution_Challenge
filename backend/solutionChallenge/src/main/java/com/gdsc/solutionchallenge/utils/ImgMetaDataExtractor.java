@@ -1,10 +1,13 @@
 package com.gdsc.solutionchallenge.utils;
 
 import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.GpsDirectory;
 import com.google.type.LatLng;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public class ImgMetaDataExtractor {
 
