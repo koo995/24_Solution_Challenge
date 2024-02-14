@@ -1,15 +1,14 @@
 package com.gdsc.solutionchallenge.app.domain;
 
+import com.gdsc.solutionchallenge.common.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor()
 @Entity
-public class UserPost extends BaseEntity{
+public class UserPost extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

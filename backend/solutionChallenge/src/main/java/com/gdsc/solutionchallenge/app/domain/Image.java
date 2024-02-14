@@ -1,6 +1,7 @@
 package com.gdsc.solutionchallenge.app.domain;
 
 import com.gdsc.solutionchallenge.app.domain.converter.LatLngConverter;
+import com.gdsc.solutionchallenge.common.domain.BaseEntity;
 import com.google.type.LatLng;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Image extends BaseEntity{
+public class Image extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

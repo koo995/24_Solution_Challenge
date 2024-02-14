@@ -1,4 +1,4 @@
-package com.gdsc.solutionchallenge.app.domain;
+package com.gdsc.solutionchallenge.common.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

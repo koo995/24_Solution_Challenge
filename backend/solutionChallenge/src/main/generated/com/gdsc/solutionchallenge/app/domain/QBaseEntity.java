@@ -2,6 +2,7 @@ package com.gdsc.solutionchallenge.app.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
+import com.gdsc.solutionchallenge.common.domain.BaseEntity;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
