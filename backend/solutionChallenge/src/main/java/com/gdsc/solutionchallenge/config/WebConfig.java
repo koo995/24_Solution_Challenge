@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new FirebaseTokenInterceptor())
                 .order(1)
-                .excludePathPatterns("/**");
+                .addPathPatterns("/**")
+                .excludePathPatterns("/error", "/sign-up", "/sign-in", "/logout");
     }
 }
