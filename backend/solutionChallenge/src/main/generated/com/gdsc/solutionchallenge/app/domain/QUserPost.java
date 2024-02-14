@@ -22,7 +22,7 @@ public class QUserPost extends EntityPathBase<UserPost> {
 
     public static final QUserPost userPost = new QUserPost("userPost");
 
-    public final QBaseEntity _super = new QBaseEntity(this);
+    public final com.gdsc.solutionchallenge.common.domain.QBaseEntity _super = new com.gdsc.solutionchallenge.common.domain.QBaseEntity(this);
 
     //inherited
     public final StringPath createdDate = _super.createdDate;

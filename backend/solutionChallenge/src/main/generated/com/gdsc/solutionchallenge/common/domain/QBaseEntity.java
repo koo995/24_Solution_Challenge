@@ -1,8 +1,7 @@
-package com.gdsc.solutionchallenge.app.domain;
+package com.gdsc.solutionchallenge.common.domain;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.gdsc.solutionchallenge.common.domain.BaseEntity;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -16,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultSupertypeSerializer")
 public class QBaseEntity extends EntityPathBase<BaseEntity> {
 
-    private static final long serialVersionUID = -701392519L;
+    private static final long serialVersionUID = -354099981L;
 
     public static final QBaseEntity baseEntity = new QBaseEntity("baseEntity");
 

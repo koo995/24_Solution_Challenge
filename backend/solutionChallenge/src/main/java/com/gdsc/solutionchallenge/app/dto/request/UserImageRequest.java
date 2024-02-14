@@ -7,11 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @ToString
 @NoArgsConstructor
-public class UserPostRequest {
+public class UserImageRequest {
 
     private MultipartFile file;
 
-    public UserPostRequest(MultipartFile file) {
+    public UserImageRequest(MultipartFile file) {
         this.file = file;
     }
 }
