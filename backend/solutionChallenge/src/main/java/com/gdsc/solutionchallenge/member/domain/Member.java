@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,7 +33,7 @@ public class Member extends BaseEntity {
     private String uid;
 
     @OneToMany(mappedBy = "member")
-    private List<Image> image;
+    private List<Image> image = new ArrayList<>();
 
     @Builder
     public Member(String username, String email, int score, String uid) {
