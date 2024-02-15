@@ -11,6 +11,9 @@ public class ImageDetailResponse {
     @JsonProperty("scientific_name")
     private String scientificName;
 
+    @JsonProperty("species_id")
+    private Long speciesId;
+
     private String url;
 
     @JsonProperty("image_id")
@@ -35,6 +38,7 @@ public class ImageDetailResponse {
 
     public ImageDetailResponse(Image image) {
         this.scientificName = image.getSpecies().getScientificName();
+        this.speciesId = image.getSpecies().getId();
         this.url = image.getFullPath();
         this.createdAt = image.getCreatedDate();
         this.location = new CustomLatLng(image.getLatLng());
