@@ -2,6 +2,7 @@ package com.gdsc.solutionchallenge.app.repository;
 
 import com.gdsc.solutionchallenge.app.dto.response.ImageInfoDto;
 import com.gdsc.solutionchallenge.app.dto.response.SpeciesImagesInfoDto;
+import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
                                 " where s.id = :speciesId", ImageInfoDto.class)
                 .setParameter("speciesId", speciesId)
                 .getResultList();
+        if (image.isEmpty()) {
+            throw new NoSpeciesException();
+        }
 
         return Optional.of(new SpeciesImagesInfoDto(speciesId, image.get(0).getScientificName(), image));
     }

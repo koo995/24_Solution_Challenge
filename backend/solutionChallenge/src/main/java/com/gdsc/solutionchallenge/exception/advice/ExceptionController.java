@@ -4,6 +4,7 @@ import com.gdsc.solutionchallenge.ai.exception.GeminiException;
 import com.gdsc.solutionchallenge.ai.exception.NoCreatureException;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
+import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.exception.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -69,5 +70,14 @@ public class ExceptionController {
         return response;
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSpeciesException.class)
+    public ErrorResponse NoSpeciesExceptionHandler(NoSpeciesException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
 
 }

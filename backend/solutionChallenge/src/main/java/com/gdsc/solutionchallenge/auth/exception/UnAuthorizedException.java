@@ -6,7 +6,7 @@ import com.gdsc.solutionchallenge.exception.GeneralException;
 public class UnAuthorizedException extends GeneralException {
 
     private static final String MESSAGE = "사용자 인증이 필요합니다.";
-    private static final int statusCode = 401;
+    private static final int CODE = 401;
 
 
     public UnAuthorizedException() {
@@ -15,6 +15,6 @@ public class UnAuthorizedException extends GeneralException {
 
     @Override
     public int getStatusCode() {
-        return statusCode;
+        return CODE;
     }
 }

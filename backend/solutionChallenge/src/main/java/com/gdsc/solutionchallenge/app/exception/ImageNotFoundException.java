@@ -6,7 +6,7 @@ public class ImageNotFoundException extends GeneralException {
 
     private static final String MESSAGE = "에 해당하는 이미지가 없습니다.";
 
-    private static final int statusCode = 404;
+    private static final int CODE = 404;
 
     public ImageNotFoundException(String imageId) {
         super("imageId=" + imageId + MESSAGE);
@@ -14,6 +14,6 @@ public class ImageNotFoundException extends GeneralException {
 
     @Override
     public int getStatusCode() {
-        return statusCode;
+        return CODE;
     }
 }
