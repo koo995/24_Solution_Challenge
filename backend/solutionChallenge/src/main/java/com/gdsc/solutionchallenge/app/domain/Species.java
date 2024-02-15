@@ -20,7 +20,7 @@ public class Species {
 
     // todo 한글명, description이 필요
 
-    @OneToMany(mappedBy = "species", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "species", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> image = new ArrayList<>();
 
     @Builder
