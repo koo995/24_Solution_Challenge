@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.app.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.type.LatLng;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class ImageInfoDto {
 
-    @JsonProperty("scientific_name")
+    @JsonIgnore
     private String scientificName;
 
     @JsonProperty("image_id")
