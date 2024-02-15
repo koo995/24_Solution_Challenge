@@ -28,6 +28,7 @@ public class Species {
         this.scientificName = scientificName;
     }
 
+    // 연관관계 메서드
     public void addImage(Image image) {
         this.image.add(image);
     }

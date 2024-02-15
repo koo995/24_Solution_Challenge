@@ -6,7 +6,7 @@ public class ImagePostingException extends GeneralException {
 
     private static final String MESSAGE = "이미지 처리중 문제가 발생했습니다.";
 
-    private static final int statusCode = 400;
+    private static final int CODE = 400;
 
     public ImagePostingException() {
         super(MESSAGE);
@@ -19,6 +19,6 @@ public class ImagePostingException extends GeneralException {
 
     @Override
     public int getStatusCode() {
-        return statusCode;
+        return CODE;
     }
 }

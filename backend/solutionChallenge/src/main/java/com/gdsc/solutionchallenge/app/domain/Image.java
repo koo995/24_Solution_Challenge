@@ -25,7 +25,7 @@ public class Image extends BaseEntity {
 
     private String type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "species_id")
     private Species species;
 
@@ -33,7 +33,6 @@ public class Image extends BaseEntity {
     private LatLng latLng;
 
 
-    // 연관관계 메서드
     @Builder
     public Image(String uploadFileName, String fullPath, String type, LatLng latLng) {
         this.uploadFileName = uploadFileName;
@@ -42,6 +41,7 @@ public class Image extends BaseEntity {
         this.latLng = latLng;
     }
 
+    // 연관관계 메서드
     public void setSpecies(Species species) {
         this.species = species;
         species.addImage(this);

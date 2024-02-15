@@ -1,20 +1,15 @@
 package com.gdsc.solutionchallenge.app.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gdsc.solutionchallenge.app.domain.Image;
 import com.google.type.LatLng;
 import lombok.Getter;
 
 @Getter
-public class ImageDetailResponse {
+public class ImageInfoDto {
 
-    @JsonProperty("scientific_name")
+    @JsonIgnore
     private String scientificName;
-
-    @JsonProperty("species_id")
-    private Long speciesId;
-
-    private String url;
 
     @JsonProperty("image_id")
     private Long imageId;
@@ -23,6 +18,13 @@ public class ImageDetailResponse {
     private String createdAt;
 
     private CustomLatLng location;
+
+    public ImageInfoDto(String scientificName,Long imageId, String createdAt, LatLng latLng) {
+        this.scientificName = scientificName;
+        this.imageId = imageId;
+        this.createdAt = createdAt;
+        this.location = new CustomLatLng(latLng);
+    }
 
     @Getter
     private static class CustomLatLng {
@@ -36,12 +38,6 @@ public class ImageDetailResponse {
 
     }
 
-    public ImageDetailResponse(Image image) {
-        this.scientificName = image.getSpecies().getScientificName();
-        this.speciesId = image.getSpecies().getId();
-        this.url = image.getFullPath();
-        this.createdAt = image.getCreatedDate();
-        this.location = new CustomLatLng(image.getLatLng());
-        this.imageId = image.getId();
-    }
+
+
 }
