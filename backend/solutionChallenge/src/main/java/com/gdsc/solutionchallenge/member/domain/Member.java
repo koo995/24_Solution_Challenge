@@ -47,9 +47,14 @@ public class Member extends BaseEntity {
         return this.score;
     }
 
+    public int getTotal() {
+        return image.size();
+    }
+
     // 연관관계 메서드
     public void addImage(Image image) {
         this.image.add(image);
     }
+
 }
 

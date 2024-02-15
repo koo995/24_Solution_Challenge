@@ -1,5 +1,7 @@
-package com.gdsc.solutionchallenge.member.controller;
+package com.gdsc.solutionchallenge.auth.controller;
 
+import com.gdsc.solutionchallenge.auth.annotation.Login;
+import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
-    @GetMapping("/profile")
-    public void collection(Long id) {
-        memberService.getProfile();
+    @GetMapping("/api/v1/auth/profile")
+    public void collection(@Login Member LoginMember) {
+        memberService.getProfile(LoginMember.getId());
     }
 }
