@@ -2,6 +2,7 @@ package com.gdsc.solutionchallenge.app.domain;
 
 import com.gdsc.solutionchallenge.app.domain.converter.LatLngConverter;
 import com.gdsc.solutionchallenge.common.domain.BaseEntity;
+import com.gdsc.solutionchallenge.member.domain.Member;
 import com.google.type.LatLng;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -32,6 +33,9 @@ public class Image extends BaseEntity {
     @Convert(converter = LatLngConverter.class)
     private LatLng latLng;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
     public Image(String uploadFileName, String fullPath, String type, LatLng latLng) {
@@ -46,4 +50,10 @@ public class Image extends BaseEntity {
         this.species = species;
         species.addImage(this);
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.addImage(this);
+    }
+
 }

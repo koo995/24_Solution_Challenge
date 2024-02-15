@@ -1,12 +1,15 @@
 package com.gdsc.solutionchallenge.member.domain;
 
 
+import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,6 +31,8 @@ public class Member extends BaseEntity {
 
     private String uid;
 
+    @OneToMany(mappedBy = "member")
+    private List<Image> image;
 
     @Builder
     public Member(String username, String email, int score, String uid) {
@@ -40,6 +45,11 @@ public class Member extends BaseEntity {
     public int addScore(int score) {
         this.score += score;
         return this.score;
+    }
+
+    // 연관관계 메서드
+    public void addImage(Image image) {
+        this.image.add(image);
     }
 }
 
