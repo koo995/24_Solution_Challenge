@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class ImageInfoDto {
 
+    @JsonProperty("scientific_name")
     private String scientificName;
 
     @JsonProperty("image_id")
