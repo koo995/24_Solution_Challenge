@@ -25,7 +25,7 @@ public class Image extends BaseEntity {
 
     private String type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "species_id")
     private Species species;
 

@@ -1,13 +1,13 @@
 package com.gdsc.solutionchallenge.app.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gdsc.solutionchallenge.app.domain.Image;
 import com.google.type.LatLng;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class ImageInfoDto {
+
+    private String scientificName;
 
     @JsonProperty("image_id")
     private Long imageId;
@@ -17,11 +17,11 @@ public class ImageInfoDto {
 
     private CustomLatLng location;
 
-    @Builder
-    public ImageInfoDto(Image image) {
-        this.imageId = image.getId();
-        this.createdAt = image.getCreatedDate();
-        this.location = new CustomLatLng(image.getLatLng());
+    public ImageInfoDto(String scientificName,Long imageId, String createdAt, LatLng latLng) {
+        this.scientificName = scientificName;
+        this.imageId = imageId;
+        this.createdAt = createdAt;
+        this.location = new CustomLatLng(latLng);
     }
 
     @Getter
