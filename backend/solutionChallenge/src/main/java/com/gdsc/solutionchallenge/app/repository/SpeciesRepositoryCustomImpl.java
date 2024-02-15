@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
 
     // todo 반드시 쿼리 한번 또는 dsl을 이용하여 최적화를 해보자.
     @Override
-    public Optional<SpeciesImagesInfoDto> findByIdWithImages(Long speciesId) {
+    public SpeciesImagesInfoDto findByIdWithImages(Long speciesId) {
 
         List<ImageInfoDto> image = em.createQuery(
                         "select new com.gdsc.solutionchallenge.app.dto.response.ImageInfoDto(s.scientificName, i.id, i.createdDate, i.latLng)" +
@@ -30,7 +29,8 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
         if (image.isEmpty()) {
             throw new NoSpeciesException();
         }
+        String scientificName = image.get(0).getScientificName();
 
-        return Optional.of(new SpeciesImagesInfoDto(speciesId, image.get(0).getScientificName(), image));
+        return new SpeciesImagesInfoDto(speciesId, scientificName, image);
     }
 }
