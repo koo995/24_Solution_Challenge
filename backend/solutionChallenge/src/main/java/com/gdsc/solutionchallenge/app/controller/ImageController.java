@@ -15,14 +15,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@Controller("/api/v1")
 public class ImageController {
 
     private final ImageService imageService;
     private final GeminiMainService geminiMainService;
 
 
-    @PostMapping("/api/v1/image")
+    @PostMapping("/image")
     public String create(@ModelAttribute UserImageRequest userImageRequest, RedirectAttributes redirectAttributes, @Login Member LoginMember) {
         // gemini
         PredictedResult prediction = geminiMainService.prediction(userImageRequest.getFile());// todo living things가 아니라면 예외
@@ -33,7 +33,7 @@ public class ImageController {
     }
 
     @ResponseBody
-    @GetMapping("/api/v1/image/{imageId}")
+    @GetMapping("/image/{imageId}")
     public ImageDetailResponse detail(@PathVariable(name = "imageId") Long imageId) {
         ImageDetailResponse response = imageService.findImageById(imageId);
         return response;
