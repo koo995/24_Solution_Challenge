@@ -8,10 +8,10 @@ import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.member.domain.Member;
-import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import com.gdsc.solutionchallenge.mission.domain.MemberMission;
 import com.gdsc.solutionchallenge.mission.domain.Mission;
 import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
+import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
 import com.gdsc.solutionchallenge.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,6 @@ import java.util.List;
 public class MissionService {
 
     private final MissionRepository missionRepository;
-
-    private final MemberRepository memberRepository;
 
     private final SpeciesRepository speciesRepository;
 
@@ -65,10 +63,11 @@ public class MissionService {
         }
     }
 
-    public void getList(Member loginMember) {
+    public List<MissionListResponse> getList(Member loginMember) {
         // 먼저 모든 리스트를 다 보여주긴 해야한다.
         // 그러나... 사용자별로 완료여부를 다르게 표시해야 한다.
         Long memberId = loginMember.getId();
-//        missionRepository.findAllWithMissionCompleteResult();
+        List<MissionListResponse> response = missionRepository.findAllWithMissionCompleteResult(memberId);
+        return response;
     }
 }

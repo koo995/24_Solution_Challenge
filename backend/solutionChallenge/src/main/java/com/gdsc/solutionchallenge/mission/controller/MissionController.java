@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +27,8 @@ public class MissionController {
     }
 
     @GetMapping("/mission")
-    public void list(@Login Member loginMember) {
-        missionService.getList(loginMember);
+    public List<MissionListResponse> list(@Login Member loginMember) {
+        List<MissionListResponse> response = missionService.getList(loginMember);
+        return response;
     }
 }
