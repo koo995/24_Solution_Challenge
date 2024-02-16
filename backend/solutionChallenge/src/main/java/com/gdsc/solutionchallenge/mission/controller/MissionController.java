@@ -39,8 +39,8 @@ public class MissionController {
 
     @ResponseBody
     @GetMapping("/api/v1/mission/{missionId}")
-    public MissionDetail detail(@PathVariable(name = "missionId") Long missionId) {
-        return missionService.detail(missionId);
+    public MissionDetail detail(@PathVariable(name = "missionId") Long missionId, @Login Member loginMember) {
+        return missionService.detail(missionId, loginMember);
     }
 
     @ResponseBody

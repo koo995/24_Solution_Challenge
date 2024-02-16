@@ -85,9 +85,18 @@ public class MissionService {
         return response;
     }
 
-    public MissionDetail detail(Long missionId) {
+    public MissionDetail detail(Long missionId, Member loginMember) {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new MissionNotFoundException());
+        List<MemberMission> memberMissions = mission.getMemberMission();
+        Boolean result = false;
+        for (MemberMission memberMission : memberMissions) {
+            if (memberMission.getMember().getId() == loginMember.getId()) {
+                result = true;
+                break;
+            }
+        }
+
         return MissionDetail.builder()
                 .title(mission.getTitle())
                 .createdAt(mission.getCreatedDate())
@@ -95,6 +104,7 @@ public class MissionService {
                 .description(mission.getDescription())
                 .missionId(missionId)
                 .imageUrl(mission.getImageUrl())
+                .result(result)
                 .build();
     }
 
@@ -108,7 +118,7 @@ public class MissionService {
         // 결과값을 받고 true or false 에러처리와 미션 성공처리를 한다.
         // 그리고 이미지포스트도 만들어서 저장한다.
         Mission mission = missionRepository.findById(missionId)
-                .orElseThrow(() -> new MissionNotFoundException());
+                .orElseThrow(MissionNotFoundException::new);
         // 로그인 멤버가 미션에 참여했다면 에러
         List<MemberMission> memberMissions = mission.getMemberMission();
         memberMissions.stream()
@@ -118,7 +128,7 @@ public class MissionService {
         });
         String scientificName = mission.getSpecies().getScientificName();
         Boolean result = geminiMainService.trueFalsePrediction(file, scientificName);
-        if (result == false) {
+        if (!result) {
             throw new MissionFailException();
         }
         MemberMission.createMemberMission(mission, loginMember);
