@@ -7,6 +7,10 @@ import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.exception.dto.ErrorResponse;
+import com.gdsc.solutionchallenge.mission.exception.AlreadyCompletedMissionException;
+import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
+import com.gdsc.solutionchallenge.mission.exception.MissionFailException;
+import com.gdsc.solutionchallenge.mission.exception.MissionNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,6 +70,7 @@ public class ExceptionController {
         ErrorResponse response = ErrorResponse.builder()
                 .code(String.valueOf(e.getStatusCode()))
                 .message(e.getMessage())
+                .validation(e.getValidation())
                 .build();
         return response;
     }
@@ -80,4 +85,43 @@ public class ExceptionController {
         return response;
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AlreadyExistSpeciesMissionException.class)
+    public ErrorResponse AlreadyExistSpeciesMissionExceptionHandler(AlreadyExistSpeciesMissionException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(MissionNotFoundException.class)
+    public ErrorResponse MissionNotFoundExceptionHandler(MissionNotFoundException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissionFailException.class)
+    public ErrorResponse MissionFailExceptionHandler(MissionFailException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AlreadyCompletedMissionException.class)
+    public ErrorResponse AlreadyCompletedMissionExceptionHandler(AlreadyCompletedMissionException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
 }

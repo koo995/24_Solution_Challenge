@@ -29,7 +29,7 @@ public class ImageService {
 
     public ImageDetailResponse findImageById(Long imageId) {
         Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new ImageNotFoundException(String.valueOf(imageId)));
+                .orElseThrow(() -> new ImageNotFoundException(imageId));
         return new ImageDetailResponse(image);
     }
 

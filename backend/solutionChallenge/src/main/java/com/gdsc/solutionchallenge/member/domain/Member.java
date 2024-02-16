@@ -3,6 +3,7 @@ package com.gdsc.solutionchallenge.member.domain;
 
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.common.domain.BaseEntity;
+import com.gdsc.solutionchallenge.mission.domain.MemberMission;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,6 +36,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Image> image = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MemberMission> memberMission = new ArrayList<>();
+
+
     @Builder
     public Member(String username, String email, int score, String uid) {
         this.username = username;
@@ -57,5 +62,8 @@ public class Member extends BaseEntity {
         this.image.add(image);
     }
 
+    public void addMemberMission(MemberMission memberMission) {
+        this.memberMission.add(memberMission);
+    }
 }
 
