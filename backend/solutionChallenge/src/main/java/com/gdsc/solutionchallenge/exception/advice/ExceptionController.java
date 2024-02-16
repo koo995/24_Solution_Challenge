@@ -8,6 +8,7 @@ import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.exception.dto.ErrorResponse;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
+import com.gdsc.solutionchallenge.mission.exception.MissionFailException;
 import com.gdsc.solutionchallenge.mission.exception.MissionNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -102,4 +103,16 @@ public class ExceptionController {
                 .build();
         return response;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissionFailException.class)
+    public ErrorResponse MissionFailExceptionHandler(MissionFailException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
+
+
 }

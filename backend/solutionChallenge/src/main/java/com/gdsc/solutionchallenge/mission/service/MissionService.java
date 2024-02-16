@@ -1,12 +1,15 @@
 package com.gdsc.solutionchallenge.mission.service;
 
+import com.gdsc.solutionchallenge.ai.service.GeminiMainService;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
+import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
+import com.gdsc.solutionchallenge.file.FileStore;
 import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.mission.domain.MemberMission;
 import com.gdsc.solutionchallenge.mission.domain.Mission;
@@ -14,11 +17,15 @@ import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionDetail;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
+import com.gdsc.solutionchallenge.mission.exception.MissionFailException;
 import com.gdsc.solutionchallenge.mission.exception.MissionNotFoundException;
 import com.gdsc.solutionchallenge.mission.repository.MissionRepository;
+import com.gdsc.solutionchallenge.utils.ImgMetaDataExtractor;
+import com.google.type.LatLng;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,11 +34,15 @@ import java.util.List;
 @Service
 public class MissionService {
 
+    private final FileStore fileStore;
+
     private final MissionRepository missionRepository;
 
     private final SpeciesRepository speciesRepository;
 
     private final ImageRepository imageRepository;
+
+    private final GeminiMainService geminiMainService;
 
     @Transactional
     public Long createMission(MissionCreateDto missionCreateDto, Member loginMember) {
@@ -84,5 +95,40 @@ public class MissionService {
                 .missionId(missionId)
                 .imageUrl(mission.getImageUrl())
                 .build();
+    }
+
+    // 이미지 아이디를 반환 받을까?
+    @Transactional
+    public Long imageUpload(Long missionId, Member loginMember, MultipartFile file) {
+        // 우선 미션아이디로부터 어떤 종에 해당하는지 찾아야 한다.
+        // 그리고 그 종을 gemini prompt에 넣어준다.
+        // 결과값을 받고 true or false 에러처리와 미션 성공처리를 한다.
+        // 그리고 이미지포스트도 만들어서 저장한다.
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new MissionNotFoundException());
+        String scientificName = mission.getSpecies().getScientificName();
+        Boolean result = geminiMainService.trueFalsePrediction(file, scientificName);
+        if (result == false) {
+            throw new MissionFailException();
+        }
+        MemberMission.createMemberMission(mission, loginMember);
+        // 메타데이터 추출해보고 올바르면 저장.
+        LatLng latLng;
+        try {
+            latLng = ImgMetaDataExtractor.extractLatLng(file);
+        } catch (Exception e) {
+            throw new NoLatLngException();
+        }
+        String imageUrl = fileStore.storeFile(file);
+        Image image = Image.builder()
+                .fullPath(imageUrl)
+                .latLng(latLng)
+                .uploadFileName(file.getOriginalFilename())
+                .type(file.getContentType())
+                .build();
+        image.setMember(loginMember);
+        image.setSpecies(mission.getSpecies());
+        imageRepository.save(image);
+        return image.getId();
     }
 }

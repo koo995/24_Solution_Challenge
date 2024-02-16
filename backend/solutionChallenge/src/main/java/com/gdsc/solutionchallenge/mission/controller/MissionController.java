@@ -6,10 +6,10 @@ import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionDetail;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
 import com.gdsc.solutionchallenge.mission.service.MissionService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,5 +34,13 @@ public class MissionController {
     @GetMapping("/api/v1/mission/{missionId}")
     public MissionDetail detail(@PathVariable(name = "missionId") Long missionId) {
         return missionService.detail(missionId);
+    }
+
+    @PostMapping("/api/v1/mission/{missionId}")
+    public Long upload(@PathVariable(name = "missionId") Long missionId,
+                       @Login Member loginMember,
+                       @RequestParam("file") MultipartFile file) {
+        Long imageId = missionService.imageUpload(missionId, loginMember, file);
+        return imageId;
     }
 }
