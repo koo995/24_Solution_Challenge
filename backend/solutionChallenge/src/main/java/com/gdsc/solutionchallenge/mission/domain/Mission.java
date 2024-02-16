@@ -4,6 +4,7 @@ import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,10 @@ public class Mission extends BaseEntity {
 
     private String description;
 
+    private String imageUrl;
+
+    private int participantCount;
+
     // 연관관계의 주인으로 설정
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "species_id")
@@ -42,12 +47,12 @@ public class Mission extends BaseEntity {
         this.memberMission.add(memberMission);
     }
 
-    // 생성메서드
-    public static Mission createMission(String title, String description, Species species) {
-        Mission mission = new Mission();
-        mission.title = title;
-        mission.description = description;
-        mission.setSpecies(species);
-        return mission;
+    // 생성
+    @Builder
+    public Mission(String title, String description, String imageUrl, Species species) {
+        this.title = title;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.setSpecies(species);
     }
 }
