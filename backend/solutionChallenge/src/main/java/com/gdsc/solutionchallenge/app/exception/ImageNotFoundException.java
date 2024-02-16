@@ -8,7 +8,7 @@ public class ImageNotFoundException extends GeneralException {
 
     private static final int CODE = 404;
 
-    public ImageNotFoundException(String imageId) {
+    public ImageNotFoundException(Long imageId) {
         super("imageId=" + imageId + MESSAGE);
     }
 
