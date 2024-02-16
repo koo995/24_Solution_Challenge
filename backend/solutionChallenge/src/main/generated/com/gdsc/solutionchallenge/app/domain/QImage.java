@@ -33,6 +33,8 @@ public class QImage extends EntityPathBase<Image> {
 
     public final SimplePath<com.google.type.LatLng> latLng = createSimple("latLng", com.google.type.LatLng.class);
 
+    public final com.gdsc.solutionchallenge.member.domain.QMember member;
+
     public final QSpecies species;
 
     public final StringPath type = createString("type");
@@ -57,6 +59,7 @@ public class QImage extends EntityPathBase<Image> {
 
     public QImage(Class<? extends Image> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.member = inits.isInitialized("member") ? new com.gdsc.solutionchallenge.member.domain.QMember(forProperty("member")) : null;
         this.species = inits.isInitialized("species") ? new QSpecies(forProperty("species")) : null;
     }
 

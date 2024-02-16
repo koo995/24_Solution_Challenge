@@ -23,11 +23,11 @@ public class ImageController {
 
 
     @PostMapping("/api/v1/image")
-    public String create(@ModelAttribute UserImageRequest userImageRequest, RedirectAttributes redirectAttributes) {
+    public String create(@ModelAttribute UserImageRequest userImageRequest, RedirectAttributes redirectAttributes, @Login Member LoginMember) {
         // gemini
         PredictedResult prediction = geminiMainService.prediction(userImageRequest.getFile());// todo living things가 아니라면 예외
         // 이미지포스트생성
-        Long imageId = imageService.create(userImageRequest, prediction);
+        Long imageId = imageService.create(userImageRequest, prediction, LoginMember);
         redirectAttributes.addAttribute("imageId", imageId);
         return "redirect:/api/v1/image/{imageId}";
     }

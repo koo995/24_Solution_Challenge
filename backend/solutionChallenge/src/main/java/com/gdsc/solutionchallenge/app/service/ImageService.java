@@ -10,12 +10,15 @@ import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.file.FileStore;
+import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.utils.ImgMetaDataExtractor;
 import com.google.type.LatLng;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class ImageService {
@@ -30,7 +33,8 @@ public class ImageService {
         return new ImageDetailResponse(image);
     }
 
-    public Long create(UserImageRequest userImageRequest, PredictedResult predictedResult){
+    @Transactional
+    public Long create(UserImageRequest userImageRequest, PredictedResult predictedResult, Member loginMember){
         MultipartFile file = userImageRequest.getFile();
         // 메타데이터 추출.
         LatLng latLng;
@@ -51,7 +55,8 @@ public class ImageService {
                 .latLng(latLng)
                 .build();
         image.setSpecies(species);
-        // 이미지포스트 생성
+        image.setMember(loginMember);
+        // 이미지포스트 저장
         speciesRepository.save(species);
         Long imageId = imageRepository.save(image).getId();
         return imageId;
