@@ -7,6 +7,7 @@ import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.exception.dto.ErrorResponse;
+import com.gdsc.solutionchallenge.mission.exception.AlreadyCompletedMissionException;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
 import com.gdsc.solutionchallenge.mission.exception.MissionFailException;
 import com.gdsc.solutionchallenge.mission.exception.MissionNotFoundException;
@@ -114,5 +115,13 @@ public class ExceptionController {
         return response;
     }
 
-
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AlreadyCompletedMissionException.class)
+    public ErrorResponse AlreadyCompletedMissionExceptionHandler(AlreadyCompletedMissionException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
 }

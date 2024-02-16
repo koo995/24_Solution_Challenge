@@ -59,6 +59,7 @@ public class GeminiMainService {
                     .build());
             GenerateContentResponse generateContentResponse = model.generateContent(contents, safetySettings);
             String text = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
+            log.info("gemini={}", text);
             ObjectMapper objectMapper = new ObjectMapper(); // todo objectMapper()말고 resolver을 활용하면 어떨까
             PredictedResult predictedResult = objectMapper.readValue(text, PredictedResult.class);
             if (predictedResult.getLivingThings() == "false") {

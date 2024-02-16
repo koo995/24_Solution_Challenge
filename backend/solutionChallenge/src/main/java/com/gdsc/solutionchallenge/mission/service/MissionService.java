@@ -16,6 +16,7 @@ import com.gdsc.solutionchallenge.mission.domain.Mission;
 import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionDetail;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
+import com.gdsc.solutionchallenge.mission.exception.AlreadyCompletedMissionException;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
 import com.gdsc.solutionchallenge.mission.exception.MissionFailException;
 import com.gdsc.solutionchallenge.mission.exception.MissionNotFoundException;
@@ -101,11 +102,20 @@ public class MissionService {
     @Transactional
     public Long imageUpload(Long missionId, Member loginMember, MultipartFile file) {
         // 우선 미션아이디로부터 어떤 종에 해당하는지 찾아야 한다.
+        // 먼저 미션에 성공했는지 부터 따져보자.
+        // 성공한 것이 없다면
         // 그리고 그 종을 gemini prompt에 넣어준다.
         // 결과값을 받고 true or false 에러처리와 미션 성공처리를 한다.
         // 그리고 이미지포스트도 만들어서 저장한다.
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new MissionNotFoundException());
+        // 로그인 멤버가 미션에 참여했다면 에러
+        List<MemberMission> memberMissions = mission.getMemberMission();
+        memberMissions.stream()
+                .filter(memberMission -> memberMission.getMember().getId() == loginMember.getId())
+                .forEach(memberMission -> {
+            throw new AlreadyCompletedMissionException();
+        });
         String scientificName = mission.getSpecies().getScientificName();
         Boolean result = geminiMainService.trueFalsePrediction(file, scientificName);
         if (result == false) {
