@@ -11,8 +11,10 @@ import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.mission.domain.MemberMission;
 import com.gdsc.solutionchallenge.mission.domain.Mission;
 import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
+import com.gdsc.solutionchallenge.mission.dto.response.MissionDetail;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
+import com.gdsc.solutionchallenge.mission.exception.MissionNotFoundException;
 import com.gdsc.solutionchallenge.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -69,5 +71,18 @@ public class MissionService {
         Long memberId = loginMember.getId();
         List<MissionListResponse> response = missionRepository.findAllWithMissionCompleteResult(memberId);
         return response;
+    }
+
+    public MissionDetail detail(Long missionId) {
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new MissionNotFoundException());
+        return MissionDetail.builder()
+                .title(mission.getTitle())
+                .createdAt(mission.getCreatedDate())
+                .speciesName(mission.getSpecies().getScientificName())
+                .description(mission.getDescription())
+                .missionId(missionId)
+                .imageUrl(mission.getImageUrl())
+                .build();
     }
 }
