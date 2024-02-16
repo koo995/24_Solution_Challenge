@@ -18,10 +18,7 @@ public class MissionController {
     private final MissionService missionService;
 
     @PostMapping("/mission")
-    public void create(@RequestBody MissionRequestDto missionRequestDto, @Login Member loginMember) {
-        missionService.createMission(missionRequestDto, loginMember);
+    public Long create(@RequestBody MissionRequestDto missionRequestDto, @Login Member loginMember) {
+        return missionService.createMission(missionRequestDto, loginMember);
     }
 }
-    // 여기서 어떤 정보를 받을까?
-    // 우선 종을 구분해야하니까 종에대한 id을 받아야한다.
-    // 그리고 제목, 이미지, 설명,

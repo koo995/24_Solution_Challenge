@@ -8,7 +8,6 @@ import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.member.domain.Member;
-import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import com.gdsc.solutionchallenge.mission.domain.Mission;
 import com.gdsc.solutionchallenge.mission.dto.MissionRequestDto;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
@@ -17,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -26,14 +23,12 @@ public class MissionService {
 
     private final MissionRepository missionRepository;
 
-    private final MemberRepository memberRepository;
-
     private final SpeciesRepository speciesRepository;
 
     private final ImageRepository imageRepository;
 
     @Transactional
-    public void createMission(MissionRequestDto missionRequestDto, Member loginMember) {
+    public Long createMission(MissionRequestDto missionRequestDto, Member loginMember) {
         // 먼저 로그인한 사용자가 이미지의 사용자와 일치하는지 체크하자
         Long imageId = missionRequestDto.getImageId();
         Image image = imageRepository.findById(imageId)
@@ -61,6 +56,6 @@ public class MissionService {
         } catch (Exception e) {
             throw new AlreadyExistSpeciesMissionException();
         }
-        // todo id값을 반환해주자.
+        return missionId;
     }
 }
