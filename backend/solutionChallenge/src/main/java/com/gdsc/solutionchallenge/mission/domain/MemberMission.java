@@ -41,11 +41,12 @@ public class MemberMission {
         MemberMission memberMission = new MemberMission();
         memberMission.setMission(mission);
         memberMission.setMember(member);
+        memberMission.missionComplete();
         return memberMission;
     }
 
     // 비즈니스 로직
-    public void setMissionComplete() {
+    public void missionComplete() {
         this.missionCompleteStatus = true;
     }
 }

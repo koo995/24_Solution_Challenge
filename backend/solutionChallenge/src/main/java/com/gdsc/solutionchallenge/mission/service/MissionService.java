@@ -8,6 +8,7 @@ import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
 import com.gdsc.solutionchallenge.member.domain.Member;
+import com.gdsc.solutionchallenge.mission.domain.MemberMission;
 import com.gdsc.solutionchallenge.mission.domain.Mission;
 import com.gdsc.solutionchallenge.mission.dto.MissionRequestDto;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
@@ -50,12 +51,12 @@ public class MissionService {
                 .species(species)
                 .imageUrl(imageUrl)
                 .build();
-        Long missionId;
         try {
-            missionId = missionRepository.save(mission).getId();
+            Mission missionSaved = missionRepository.save(mission);
+            MemberMission.createMemberMission(missionSaved, loginMember);
+            return missionSaved.getId();
         } catch (Exception e) {
             throw new AlreadyExistSpeciesMissionException();
         }
-        return missionId;
     }
 }
