@@ -13,6 +13,11 @@ public class UnAuthorizedException extends GeneralException {
         super(MESSAGE);
     }
 
+    public UnAuthorizedException(String message) {
+        super(MESSAGE);
+        addValidation("auth", message);
+    }
+
     @Override
     public int getStatusCode() {
         return CODE;
