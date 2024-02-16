@@ -60,7 +60,7 @@ public class QImage extends EntityPathBase<Image> {
     public QImage(Class<? extends Image> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new com.gdsc.solutionchallenge.member.domain.QMember(forProperty("member")) : null;
-        this.species = inits.isInitialized("species") ? new QSpecies(forProperty("species")) : null;
+        this.species = inits.isInitialized("species") ? new QSpecies(forProperty("species"), inits.get("species")) : null;
     }
 
 }

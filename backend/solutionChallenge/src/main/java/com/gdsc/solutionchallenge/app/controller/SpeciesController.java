@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController("/api/v1/")
+@RestController
 public class SpeciesController {
 
     private final SpeciesService speciesService;
 
-    @GetMapping("/location/{speciesId}")
+    @GetMapping("/api/v1/{speciesId}/location")
     public SpeciesImagesInfoDto getLocations(@PathVariable(name = "speciesId") Long speciesId) {
         SpeciesImagesInfoDto oneOfLocations = speciesService.findOneOfLocations(speciesId);
         return oneOfLocations;

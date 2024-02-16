@@ -31,6 +31,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final ListPath<com.gdsc.solutionchallenge.app.domain.Image, com.gdsc.solutionchallenge.app.domain.QImage> image = this.<com.gdsc.solutionchallenge.app.domain.Image, com.gdsc.solutionchallenge.app.domain.QImage>createList("image", com.gdsc.solutionchallenge.app.domain.Image.class, com.gdsc.solutionchallenge.app.domain.QImage.class, PathInits.DIRECT2);
 
+    public final ListPath<com.gdsc.solutionchallenge.mission.domain.MemberMission, com.gdsc.solutionchallenge.mission.domain.QMemberMission> memberMission = this.<com.gdsc.solutionchallenge.mission.domain.MemberMission, com.gdsc.solutionchallenge.mission.domain.QMemberMission>createList("memberMission", com.gdsc.solutionchallenge.mission.domain.MemberMission.class, com.gdsc.solutionchallenge.mission.domain.QMemberMission.class, PathInits.DIRECT2);
+
     public final NumberPath<Integer> score = createNumber("score", Integer.class);
 
     public final StringPath uid = createString("uid");

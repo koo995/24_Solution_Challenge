@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RequiredArgsConstructor
-@RestController("/api/v1")
+@RestController("/api/v1/auth")
 public class AuthController {
 
     private final MemberService memberService;
 
-    @GetMapping("/auth/profile")
+    @GetMapping("/profile")
     public ProfileResponseDto collection(@Login Member LoginMember, Pageable pageable) {
         return memberService.getProfile(LoginMember.getId(), pageable);
     }
