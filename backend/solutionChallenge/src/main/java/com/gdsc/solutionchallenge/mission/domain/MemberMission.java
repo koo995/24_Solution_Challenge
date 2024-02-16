@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.mission.domain;
 
+import com.gdsc.solutionchallenge.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,10 @@ public class MemberMission {
     @JoinColumn(name = "mission_id")
     private Mission mission;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Column(name = "mission_complete")
     private Boolean missionCompleteStatus = false;
 
@@ -26,10 +31,16 @@ public class MemberMission {
         mission.setMemberMission(this);
     }
 
+    public void setMember(Member member) {
+        this.member = member;
+        member.addMemberMission(this);
+    }
+
     // 생성 메서드
-    public static MemberMission createMemberMission(Mission mission) {
+    public static MemberMission createMemberMission(Mission mission, Member member) {
         MemberMission memberMission = new MemberMission();
         memberMission.setMission(mission);
+        memberMission.setMember(member);
         return memberMission;
     }
 
