@@ -3,10 +3,10 @@ package com.gdsc.solutionchallenge.member.service;
 import com.gdsc.solutionchallenge.member.dto.ProfileResponseDto;
 import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
