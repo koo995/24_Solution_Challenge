@@ -1,5 +1,5 @@
 package com.gdsc.solutionchallenge.mission.repository;
 
 public interface MissionRepositoryCustom {
-    void findAllWithMissionCompleteResult();
+//    void findAllWithMissionCompleteResult();
 }

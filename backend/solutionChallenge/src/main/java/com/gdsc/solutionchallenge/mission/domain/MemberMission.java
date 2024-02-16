@@ -41,6 +41,7 @@ public class MemberMission {
         MemberMission memberMission = new MemberMission();
         memberMission.setMission(mission);
         memberMission.setMember(member);
+        memberMission.missionComplete();
         return memberMission;
     }
 

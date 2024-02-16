@@ -47,7 +47,7 @@ public class MissionService {
         // speciesId로 부터 이름을 가져오자
         Long speciesId = missionCreateDto.getSpeciesId();
         Species species = speciesRepository.findById(speciesId)
-                .orElseThrow(() -> new NoSpeciesException());
+                .orElseThrow(NoSpeciesException::new);
 
         // mission 생성
         Mission mission = Mission.builder()
@@ -58,24 +58,17 @@ public class MissionService {
                 .build();
         try {
             missionRepository.save(mission);
+            MemberMission.createMemberMission(mission, loginMember);
+            return mission.getId();
         } catch (Exception e) {
             throw new AlreadyExistSpeciesMissionException();
         }
-        // 모든 멤버에 대해서 미션여부 처리해주기. 먼저 작성자만 true
-        MemberMission memberMission = MemberMission.createMemberMission(mission, loginMember);
-        memberMission.missionComplete();
-        // 나머지 작성자 false
-        List<Member> members = memberRepository.findAllExcludingMemberById(loginMember.getId());
-        for (Member member : members) {
-            MemberMission.createMemberMission(mission, member);
-        }
-        return mission.getId();
     }
 
     public void getList(Member loginMember) {
         // 먼저 모든 리스트를 다 보여주긴 해야한다.
         // 그러나... 사용자별로 완료여부를 다르게 표시해야 한다.
         Long memberId = loginMember.getId();
-        missionRepository.findAllWithMissionCompleteResult();
+//        missionRepository.findAllWithMissionCompleteResult();
     }
 }
