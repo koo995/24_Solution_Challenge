@@ -1,6 +1,8 @@
 package com.gdsc.solutionchallenge.mission.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Setter
 @Getter

@@ -1,7 +1,6 @@
 package com.gdsc.solutionchallenge.app.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.type.LatLng;
 import lombok.Getter;
 
@@ -11,10 +10,8 @@ public class ImageInfoDto {
     @JsonIgnore
     private String scientificName;
 
-    @JsonProperty("image_id")
     private Long imageId;
 
-    @JsonProperty("created_at")
     private String createdAt;
 
     private CustomLatLng location;
@@ -35,7 +32,6 @@ public class ImageInfoDto {
             this.latitude = latLng.getLatitude();
             this.longitude = latLng.getLongitude();
         }
-
     }
 
 
