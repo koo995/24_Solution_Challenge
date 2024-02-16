@@ -1,4 +1,4 @@
-package com.gdsc.solutionchallenge.mission.dto;
+package com.gdsc.solutionchallenge.mission.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class MissionRequestDto {
+public class MissionCreateDto {
 
     private String title;
 
@@ -17,7 +17,7 @@ public class MissionRequestDto {
 
     private Long imageId;
 
-    public MissionRequestDto(String title, String description, Long speciesId, Long imageId) {
+    public MissionCreateDto(String title, String description, Long speciesId, Long imageId) {
         this.title = title;
         this.description = description;
         this.speciesId = speciesId;
