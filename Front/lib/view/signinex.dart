@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'home_page.dart';
 
 class SignInEx extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  SignInEx({super.key});
 
   Future<UserCredential?> _handleSignIn() async {
     try {
@@ -44,6 +46,7 @@ class SignInEx extends StatelessWidget {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => HomePage()), (route) => false);
               print('로그인 성공: ${userCredential.user!.displayName}');
+              print('${context.watch<Store1>().apiUrl}');
             } else {
               print('로그인 실패');
             }
@@ -53,4 +56,10 @@ class SignInEx extends StatelessWidget {
       ),
     );
   }
+}
+
+class Store1 {
+  apiUrl() {
+    return 'https://34.47.91.250:8080/api/v1/';
+}
 }

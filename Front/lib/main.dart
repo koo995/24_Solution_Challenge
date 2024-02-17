@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:front_flutter/view/map_page.dart';
 import 'package:front_flutter/view/signinex.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
 
 void main() async{
@@ -13,12 +14,20 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'My App',
-    home: MyApp(),
-  ));
+  runApp(
+      ChangeNotifierProvider(
+        create: (context) => Store1(),
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'My App',
+            home: MyApp(),
+          ),
+      ));
 }
+class Store1 extends ChangeNotifier {
+  var apiUrl = 'https://34.47.91.250:8080/api/v1/';
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
