@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+
 class ItemDetail extends StatelessWidget {
   const ItemDetail({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +24,7 @@ class ItemDetail extends StatelessWidget {
             decoration:BoxDecoration(
                 color: Colors.blue,
               ),
-            child:Text('내용 들어갈 영역',
+            child:Text('',
             style: TextStyle(
               fontSize: 20,
               color: Colors.black,

@@ -7,6 +7,9 @@ import 'package:front_flutter/view/map_page.dart';
 import 'package:front_flutter/view/signinex.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
+import 'callapi.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 
 void main() async{
@@ -15,17 +18,7 @@ void main() async{
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-      ChangeNotifierProvider(
-        create: (context) => Store1(),
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'My App',
-            home: MyApp(),
-          ),
-      ));
-}
-class Store1 extends ChangeNotifier {
-  var apiUrl = 'https://34.47.91.250:8080/api/v1/';
+       MyApp());
 }
 
 
@@ -35,6 +28,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return SignInEx();
+    return ChangeNotifierProvider(
+      create: (context) => Store1(),
+      child: MaterialApp(
+        home: SignInEx(),
+      ),
+    );
   }
 }
