@@ -25,6 +25,7 @@ spring:
           location: classpath:storageKey.json
         project-id: gdsc-seoultech
         bucket: gdsc-solchell
+
 firebase:
   credential:
     resource-path: firebase.json

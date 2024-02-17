@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 @Component
@@ -22,12 +23,11 @@ public class FirebaseInitializer {
 
     @PostConstruct
     public void firebaseApp() throws IOException {
-        Resource resource = new ClassPathResource(keyPath);
+        ClassPathResource resource = new ClassPathResource(keyPath);
         log.info("Initializing Firebase.");
-        FileInputStream serviceAccount =
-                new FileInputStream(resource.getFile());
+        InputStream inputStream = resource.getInputStream();
         FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setCredentials(GoogleCredentials.fromStream(inputStream))
                 .build();
 
         FirebaseApp app = FirebaseApp.initializeApp(options);
