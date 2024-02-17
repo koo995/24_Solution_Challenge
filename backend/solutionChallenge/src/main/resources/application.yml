@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/solchell
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://34.22.95.5:3306/solchell
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
   # todo nginx와 같은 리버스 프록시 서버에도 크기 설정을 해줘야 함.
   servlet:
     multipart:
@@ -12,12 +12,20 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
 
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:storageKey.json
+        project-id: gdsc-seoultech
+        bucket: gdsc-solchell
 firebase:
   credential:
     resource-path: firebase.json
+
