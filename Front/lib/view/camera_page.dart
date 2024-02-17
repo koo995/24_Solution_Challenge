@@ -21,6 +21,7 @@ class _CameraPageState extends State<CameraPage> {
     final image = await picker.pickImage(source: imageSource);
     setState(() {
       _image = File(image!.path); // 가져온 이미지를 _image에 저장
+      // 이미지를 서버로 전송하는 코드를 작성하면 된다.
     });
   }
   @override

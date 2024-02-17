@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
               title: Text('Profile'),
               onTap: () {
                 Navigator.pop(context);
+
               },
             ),
             ListTile(
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body:PageView(
         controller: _pageController,
-        children: [Tab1(), Tab2(), Tab3(), Tab4()],
+        children: [Tab1(), Tab2(), Tab3()],
         onPageChanged: (index) {
         setState(() {
         tab = index;});
@@ -104,12 +105,7 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(Icons.star),
                 label: 'Rank',
             ),
-            BottomNavigationBarItem(
-              backgroundColor: Colors.deepPurpleAccent,
-                icon: Icon(Icons.map),
-                label: 'Map',
-            ),
-          ],
+                        ],
         ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -248,14 +244,6 @@ class Tab2 extends StatelessWidget {
 
 class Tab3 extends StatelessWidget {
   const Tab3({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-class Tab4 extends StatelessWidget {
-  const Tab4({super.key});
 
   @override
   Widget build(BuildContext context) {

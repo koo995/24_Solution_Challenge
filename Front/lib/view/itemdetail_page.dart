@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 class ItemDetail extends StatelessWidget {
   const ItemDetail({super.key});
 
@@ -12,14 +13,7 @@ class ItemDetail extends StatelessWidget {
       body: ListView(
         children:[
           Container(
-            width: 100,
-            height: 100,
-            child:Text('이미지 들어갈 영역',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          ),
+            child:Image.asset('assets/images/sample.jpg')//여기에 사진 받아야함
           ),
           Container(
             width: 100,
@@ -36,17 +30,14 @@ class ItemDetail extends StatelessWidget {
           ),
           Container(
             width: 100,
-            height: 100,
-            decoration:BoxDecoration(
-              color: Colors.red,
+            height: 400,
+            child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(37.5665, 126.9780),
+                  zoom: 15,
+                ),
+              ),
             ),
-            child: Text('지도 들어갈 영역',
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          ),
-          )
         ]
       ),
     );
