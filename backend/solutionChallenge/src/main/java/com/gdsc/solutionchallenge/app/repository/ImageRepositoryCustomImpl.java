@@ -1,4 +1,4 @@
-package com.gdsc.solutionchallenge.member.repository;
+package com.gdsc.solutionchallenge.app.repository;
 
 import com.gdsc.solutionchallenge.member.dto.ImageDto;
 import com.gdsc.solutionchallenge.member.dto.QImageDto;
@@ -13,7 +13,7 @@ import static com.gdsc.solutionchallenge.app.domain.QImage.image;
 import static com.gdsc.solutionchallenge.member.domain.QMember.member;
 
 @RequiredArgsConstructor
-public class MemberRepositoryCustomImpl implements MemberRepositoryCustom{
+public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
