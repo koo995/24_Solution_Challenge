@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/solchell
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/local_solchell
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   # todo nginx와 같은 리버스 프록시 서버에도 크기 설정을 해줘야 함.
   servlet:
     multipart:

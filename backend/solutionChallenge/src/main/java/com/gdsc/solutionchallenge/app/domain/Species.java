@@ -15,13 +15,14 @@ import java.util.List;
 public class Species {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "species_id")
     private Long id;
 
+    @Column(name = "scientific_name")
     private String scientificName;
 
-    // todo 한글명, description이 필요
+    @Column(name = "korea_name")
+    private String koreaName;
 
     @OneToMany(mappedBy = "species", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> image = new ArrayList<>();

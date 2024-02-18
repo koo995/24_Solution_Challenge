@@ -28,7 +28,6 @@ public class ImageDetailResponse {
             this.latitude = latLng.getLatitude();
             this.longitude = latLng.getLongitude();
         }
-
     }
 
     public ImageDetailResponse(Image image) {

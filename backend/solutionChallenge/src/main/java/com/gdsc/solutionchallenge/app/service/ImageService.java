@@ -7,6 +7,7 @@ import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
+import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.file.FileStore;
@@ -47,7 +48,7 @@ public class ImageService {
         String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
-                .orElse(new Species(predictedResult.getScientificName()));
+                .orElseThrow(() -> new NoSpeciesException("create", "찾으시는 종이 db 상에 존재하지 않습니다."));
         Image image = Image.builder()
                 .uploadFileName(file.getOriginalFilename())
                 .fullPath(fullPath)

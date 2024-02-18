@@ -24,6 +24,8 @@ public class QSpecies extends EntityPathBase<Species> {
 
     public final ListPath<Image, QImage> image = this.<Image, QImage>createList("image", Image.class, QImage.class, PathInits.DIRECT2);
 
+    public final StringPath koreaName = createString("koreaName");
+
     public final StringPath scientificName = createString("scientificName");
 
     public QSpecies(String variable) {
