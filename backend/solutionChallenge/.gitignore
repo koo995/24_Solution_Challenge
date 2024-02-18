@@ -5,9 +5,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-## docker
-Dockerfile
-
 ### STS ###
 .apt_generated
 .classpath
@@ -39,7 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
-
 ### firebase ###
 src/main/resources/firebase.json
+
+### google cloud sql ###
 src/main/resources/storageKey.json
+
+### docker ###
+Dockerfile
