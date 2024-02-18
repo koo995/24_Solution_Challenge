@@ -22,5 +22,4 @@ public class AuthController {
         profileResponse.SetUsername(LoginMember.getUsername());
         return profileResponse;
     }
-
 }

@@ -40,7 +40,6 @@ public class Mission extends BaseEntity {
     // 연관관계 메서드
     public void setSpecies(Species species) {
         this.species = species;
-        species.setMission(this);
     }
 
     public void setMemberMission(MemberMission memberMission) {

@@ -59,7 +59,7 @@ public class QMission extends EntityPathBase<Mission> {
 
     public QMission(Class<? extends Mission> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.species = inits.isInitialized("species") ? new com.gdsc.solutionchallenge.app.domain.QSpecies(forProperty("species"), inits.get("species")) : null;
+        this.species = inits.isInitialized("species") ? new com.gdsc.solutionchallenge.app.domain.QSpecies(forProperty("species")) : null;
     }
 
 }

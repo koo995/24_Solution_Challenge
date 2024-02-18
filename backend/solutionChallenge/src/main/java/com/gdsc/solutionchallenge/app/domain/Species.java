@@ -1,9 +1,10 @@
 package com.gdsc.solutionchallenge.app.domain;
 
-import com.gdsc.solutionchallenge.mission.domain.Mission;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.engine.spi.ManagedEntity;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +21,6 @@ public class Species {
 
     private String scientificName;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "species")
-    private Mission mission;
-
     // todo 한글명, description이 필요
 
     @OneToMany(mappedBy = "species", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -36,9 +34,5 @@ public class Species {
     // 연관관계 메서드
     public void addImage(Image image) {
         this.image.add(image);
-    }
-
-    public void setMission(Mission mission) {
-        this.mission = mission;
     }
 }
