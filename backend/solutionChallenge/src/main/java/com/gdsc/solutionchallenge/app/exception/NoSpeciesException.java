@@ -10,6 +10,11 @@ public class NoSpeciesException extends GeneralException {
         super(MESSAGE);
     }
 
+    public NoSpeciesException(String fieldName, String message) {
+        super(MESSAGE);
+        addValidation(fieldName, message);
+    }
+
     @Override
     public int getStatusCode() {
         return CODE;
