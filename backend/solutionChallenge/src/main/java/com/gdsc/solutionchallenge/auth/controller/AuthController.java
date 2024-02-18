@@ -18,7 +18,8 @@ public class AuthController {
 
     @GetMapping("/api/v1/auth/profile")
     public ProfileResponseDto collection(@Login Member LoginMember, Pageable pageable) {
-        return memberService.getProfile(LoginMember.getId(), pageable);
+        ProfileResponseDto profileResponse = memberService.getProfile(LoginMember.getId(), pageable);
+        profileResponse.SetUsername(LoginMember.getUsername());
+        return profileResponse;
     }
-
 }
