@@ -1,9 +1,10 @@
 package com.gdsc.solutionchallenge.member.repository;
 
-import com.gdsc.solutionchallenge.member.dto.ProfileResponseDto;
+import com.gdsc.solutionchallenge.member.dto.ImageDto;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 
 public interface MemberRepositoryCustom {
-    ProfileResponseDto findByIdWithImage(Long memberId, Pageable pageable);
+     PageImpl<ImageDto> findByMemberId(Long memberId, Pageable pageable);
 }
