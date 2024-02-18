@@ -39,3 +39,5 @@ out/
 
 ### firebase ###
 src/main/resources/firebase.json
+### google sql ###
+src/main/resources/storageKey.json
