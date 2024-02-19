@@ -36,7 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-
 ### firebase ###
 src/main/resources/firebase.json
 ### google sql ###

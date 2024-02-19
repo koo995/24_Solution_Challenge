@@ -126,12 +126,12 @@ public class ExceptionController {
         return response;
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse ExceptionHandler(Exception e) {
-        return ErrorResponse.builder()
-                .code(String.valueOf(500))
-                .message("server error! 카톡으로 연락주세용")
-                .build();
-    }
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(Exception.class)
+//    public ErrorResponse ExceptionHandler(Exception e) {
+//        return ErrorResponse.builder()
+//                .code(String.valueOf(500))
+//                .message("server error! 카톡으로 연락주세용")
+//                .build();
+//    }
 }
