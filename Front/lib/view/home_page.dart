@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../callapi.dart';
 
 
+
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -106,7 +107,6 @@ class _HomePageState extends State<HomePage> {
               title: Text('Logout', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
               onTap: () async {
                 Navigator.pop(context);
-                await auth.signOut();
               },
             ),
           ],
@@ -250,7 +250,7 @@ var total = 10;
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
               ),
-            itemCount: 20,
+            itemCount: total,
             itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {Navigator.push(context,
@@ -295,13 +295,13 @@ class Tab2 extends StatelessWidget {
                   return Card(
                     child: InkWell(
                       child: ListTile(
-                        leading: Icon(Icons.star),
+                        leading: Icon(Icons.check_outlined, color: data[i]['missionComplete'] == true ? Colors.green : Colors.red),
                         title: Text('Challenge $i'),
                         subtitle: Text('성공여부 ${data[i]['missionComplete']}'),
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(
-                                  builder:(context)=>ChallengeDetail()
+                                  builder:(context)=>ChallengeDetail(i : i)
                               )
                           );
                           },
