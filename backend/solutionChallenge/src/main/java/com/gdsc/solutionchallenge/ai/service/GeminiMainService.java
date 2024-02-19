@@ -22,7 +22,7 @@ import java.util.List;
 public class GeminiMainService {
 
     public PredictedResult prediction(MultipartFile file) {
-        String inferSpeciesPrompt = "You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nAnd infer the exact scientific name of the creature.\nPlease provide the output in json format with \"living things: true or false\", \"scientific name\" .";
+        String inferSpeciesPrompt = "\"You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nAnd infer the exact scientific name of the creature.\nPlease provide the output in json format with \"living_things: true or false\", \"scientific_name\" , \"korea_name\" of scientific_name field";
         //todo 여기서 계속 모델을 생성해야 할까? 싱글톤으로 미리 만들어 놓으면 더 빠를 수 있지 않을까. 잠시만 저 위에 @Service 저거... 그냥 둬도 되나?
         try (VertexAI vertexAi = new VertexAI("gdsc-seoultech", "asia-northeast3");) {
             GenerationConfig generationConfig =
