@@ -68,7 +68,9 @@ public class GeminiMainService {
             }
             return predictedResult;
         } catch (Exception e) {
-            throw new GeminiException("image", e.getMessage());
+            GeminiException exception = new GeminiException("validation", "다른 이미지를 넣어주세요");
+            exception.addValidation("image", e.getMessage());
+            throw exception;
         }
     }
 
