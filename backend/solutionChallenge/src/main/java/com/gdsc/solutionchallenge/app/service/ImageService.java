@@ -48,7 +48,7 @@ public class ImageService {
         String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
-                .orElse(new Species(predictedResult.getScientificName()));
+                .orElse(new Species(predictedResult.getScientificName(), predictedResult.getKoreaName()));
         Image image = Image.builder()
                 .uploadFileName(file.getOriginalFilename())
                 .fullPath(fullPath)
