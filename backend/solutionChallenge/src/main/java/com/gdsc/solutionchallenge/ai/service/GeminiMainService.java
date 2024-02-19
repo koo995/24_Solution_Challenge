@@ -120,6 +120,7 @@ public class GeminiMainService {
             }
             return true;
         } catch (Exception e) {
+            log.info("exception:",e);
             throw new GeminiException("image", e.getMessage());
         }
     }

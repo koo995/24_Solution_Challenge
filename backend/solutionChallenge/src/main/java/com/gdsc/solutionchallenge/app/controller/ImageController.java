@@ -7,11 +7,14 @@ import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
 import com.gdsc.solutionchallenge.app.service.ImageService;
 import com.gdsc.solutionchallenge.auth.annotation.Login;
 import com.gdsc.solutionchallenge.member.domain.Member;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Enumeration;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,10 +24,10 @@ public class ImageController {
     private final ImageService imageService;
     private final GeminiMainService geminiMainService;
 
-
     @PostMapping("/api/v1/image")
     public String create(@ModelAttribute UserImageRequest userImageRequest, RedirectAttributes redirectAttributes, @Login Member LoginMember) {
-        // gemini
+        log.info("userImageRequest={}", userImageRequest);
+        log.info("userRequestFile={}", userImageRequest.getFile());
         PredictedResult prediction = geminiMainService.prediction(userImageRequest.getFile());
         // 이미지포스트생성
         Long imageId = imageService.create(userImageRequest, prediction, LoginMember);
