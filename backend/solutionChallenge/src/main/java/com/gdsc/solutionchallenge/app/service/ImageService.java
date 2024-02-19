@@ -48,7 +48,7 @@ public class ImageService {
         String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
-                .orElseThrow(() -> new NoSpeciesException("create", "찾으시는 종이 db 상에 존재하지 않습니다."));
+                .orElse(new Species(predictedResult.getScientificName()));
         Image image = Image.builder()
                 .uploadFileName(file.getOriginalFilename())
                 .fullPath(fullPath)
