@@ -3,6 +3,7 @@ package com.gdsc.solutionchallenge.exception.advice;
 import com.gdsc.solutionchallenge.ai.exception.GeminiException;
 import com.gdsc.solutionchallenge.ai.exception.NoCreatureException;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
+import com.gdsc.solutionchallenge.app.exception.MaxUploadSizeException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
@@ -125,6 +126,18 @@ public class ExceptionController {
                 .build();
         return response;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MaxUploadSizeException.class)
+    public ErrorResponse MaxUploadSizeExceptionHandler(MaxUploadSizeException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+        return response;
+    }
+
+
 
 //    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 //    @ExceptionHandler(Exception.class)

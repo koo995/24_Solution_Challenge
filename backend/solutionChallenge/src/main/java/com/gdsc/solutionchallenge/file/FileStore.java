@@ -34,7 +34,7 @@ public class FileStore {
                             .setContentType(multipartFile.getContentType()).build(),
                     multipartFile.getInputStream()
             );
-            log.info("blob={}", blob);
+            log.info("storeFile={}", blob);
             return fileDir + blob.getBucket() + "/" + blob.getName();
         } catch (IOException e) {
             throw new FileSaveException();
