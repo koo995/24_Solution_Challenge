@@ -24,7 +24,7 @@ public class ImageController {
     public ImageCreateResponse create(@ModelAttribute UserImageRequest userImageRequest, @Login Member LoginMember) {
         PredictedResult prediction = geminiMainService.prediction(userImageRequest.getFile());
         Long imageId = imageService.create(userImageRequest, prediction, LoginMember);
-        return new ImageCreateResponse(prediction.getScientificName(), imageId);
+        return new ImageCreateResponse(prediction.getScientificName(), prediction.getKoreaName(), imageId);
     }
 
     @GetMapping("/api/v1/image/{imageId}")
