@@ -9,6 +9,8 @@ public class ImageDetailResponse {
 
     private String scientificName;
 
+    private String koreaName;
+
     private Long speciesId;
 
     private String url;
@@ -32,6 +34,7 @@ public class ImageDetailResponse {
 
     public ImageDetailResponse(Image image) {
         this.scientificName = image.getSpecies().getScientificName();
+        this.koreaName = image.getSpecies().getKoreaName();
         this.speciesId = image.getSpecies().getId();
         this.url = image.getFullPath();
         this.createdAt = image.getCreatedDate();

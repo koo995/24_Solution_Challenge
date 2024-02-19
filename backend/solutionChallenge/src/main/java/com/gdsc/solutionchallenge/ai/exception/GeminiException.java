@@ -8,11 +8,6 @@ public class GeminiException extends GeneralException {
 
     private static final int CODE = 400;
 
-
-    public GeminiException() {
-        super(MESSAGE);
-    }
-
     public GeminiException(String fieldName, String message) {
         super(MESSAGE);
         addValidation(fieldName, message);

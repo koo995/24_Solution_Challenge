@@ -9,18 +9,20 @@ public class MissionDetail {
     private Long missionId;
     private String title;
     private String description;
-    private String speciesName;
+    private String scientificName;
+    private String koreaName;
     private String imageUrl;
     private String createdAt;
     private Boolean result;
     // todo 미션 성공여부를 담아줘야 겠는데? 사람마다 다름
 
     @Builder
-    public MissionDetail(Long missionId, String title, String description, String speciesName, String imageUrl, String createdAt, Boolean result) {
+    public MissionDetail(Long missionId, String title, String description, String scientificName, String koreaName, String imageUrl, String createdAt, Boolean result) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
-        this.speciesName = speciesName;
+        this.scientificName = scientificName;
+        this.koreaName = koreaName;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.result = result;

@@ -22,7 +22,7 @@ import java.util.List;
 public class GeminiMainService {
 
     public PredictedResult prediction(MultipartFile file) {
-        String inferSpeciesPrompt = "You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nAnd infer the exact scientific name of the creature.\nPlease provide the output in json format with \"living things: true or false\", \"scientific name\" .";
+        String inferSpeciesPrompt = "\"You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nAnd infer the exact scientific name of the creature.\nPlease provide the output in json format with \"living_things: true or false\", \"scientific_name\" , \"korea_name\" of scientific_name field";
         //todo 여기서 계속 모델을 생성해야 할까? 싱글톤으로 미리 만들어 놓으면 더 빠를 수 있지 않을까. 잠시만 저 위에 @Service 저거... 그냥 둬도 되나?
         try (VertexAI vertexAi = new VertexAI("gdsc-seoultech", "asia-northeast3");) {
             GenerationConfig generationConfig =
@@ -59,6 +59,7 @@ public class GeminiMainService {
                     .build());
             GenerateContentResponse generateContentResponse = model.generateContent(contents, safetySettings);
             String text = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
+            System.out.println("text = " + text);
             log.info("gemini={}", text);
             ObjectMapper objectMapper = new ObjectMapper(); // todo objectMapper()말고 resolver을 활용하면 어떨까
             PredictedResult predictedResult = objectMapper.readValue(text, PredictedResult.class);
@@ -67,7 +68,9 @@ public class GeminiMainService {
             }
             return predictedResult;
         } catch (Exception e) {
-            throw new GeminiException("image", e.getMessage());
+            GeminiException exception = new GeminiException("validation", "다른 이미지를 넣어주세요");
+            exception.addValidation("image", e.getMessage());
+            throw exception;
         }
     }
 
