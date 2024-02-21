@@ -18,4 +18,6 @@ public class PredictedResult {
 
     @JsonProperty("korea_name")
     private String koreaName;
+
+    private String kingdom;
 }

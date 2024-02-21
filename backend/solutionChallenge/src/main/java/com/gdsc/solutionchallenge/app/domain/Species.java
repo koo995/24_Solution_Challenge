@@ -25,13 +25,16 @@ public class Species {
     @Column(name = "korea_name")
     private String koreaName;
 
+    private String kingdom;
+
     @OneToMany(mappedBy = "species", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> image = new ArrayList<>();
 
     @Builder
-    public Species(String scientificName, String koreaName) {
+    public Species(String scientificName, String koreaName, String kingdom) {
         this.scientificName = scientificName;
         this.koreaName = koreaName;
+        this.kingdom = kingdom;
     }
 
     // 연관관계 메서드
