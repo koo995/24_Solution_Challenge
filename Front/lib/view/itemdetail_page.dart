@@ -177,7 +177,7 @@ class _ItemDetailState extends State<ItemDetail> {
     mapController = controller;
 
     // 데이터를 가져오는 데 딜레이를 주기 위해 Future.delayed 사용
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 3));
     print('로그찍어보기');
     // 나머지 코드 계속 진행
     List<dynamic>? images = data['images'];

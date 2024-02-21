@@ -22,9 +22,9 @@ class _HomePageState extends State<HomePage> {
   var data2={};
 
   Future<void> _refresh() async {
+    await _missionRequest(Provider.of<Store1>(context, listen: false).token);
+    await _itemRequest(Provider.of<Store1>(context, listen: false).token);
     setState(() {
-      _missionRequest(Provider.of<Store1>(context, listen: false).token);
-      _itemRequest(Provider.of<Store1>(context, listen: false).token);
       print('Refreshed');
     });
   }
@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
 class Tab1 extends StatefulWidget {
   Tab1({super.key, this.data2});
 
-  final data2;
+  late var data2;
 
   @override
   State<Tab1> createState() => _Tab1State();
@@ -213,11 +213,7 @@ class _Tab1State extends State<Tab1> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async {
-        setState(() {
-          print('Refreshed');
-        });
-      },
+      onRefresh: _refresh,
       child: Column(
         children: [
           Container(
@@ -299,11 +295,56 @@ class _Tab1State extends State<Tab1> {
       ),
     );
   }
+  Future<void> _refresh() async {
+    try {
+      print('Refreshing Tab1');
+
+      await Future.delayed(Duration(seconds: 2));
+
+      _itemRequest(Provider.of<Store1>(context, listen: false).token);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Tab1 refreshed')),
+      );
+    } catch (error) {
+      print('Error during refresh: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during refresh')),
+      );
+    }
+  }
+  Future<void> _itemRequest(String token) async {
+    try {
+      String mytoken = token;
+      final response = await http.get(
+        Uri.parse('http://34.47.91.250:8080/api/v1/auth/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $mytoken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('item API Response:${jsonDecode(response.body)}');
+        setState(() {
+          widget.data2 = jsonDecode(response.body);
+        });
+        // 여기서 응답을 처리하거나 상태를 업데이트할 수 있습니다.
+      } else {
+        print('item API Request Failed with Status Code: ${response.statusCode}');
+        // 실패한 경우에 대한 처리를 추가할 수 있습니다.
+      }
+    } catch (error) {
+      print('Error during API Request: $error');
+    }
+  }
 }
 
 class Tab2 extends StatefulWidget {
   Tab2({super.key,this.data});
-  final  data;
+  late var  data;
+
 
   @override
   State<Tab2> createState() => _Tab2State();
@@ -312,14 +353,11 @@ class Tab2 extends StatefulWidget {
 class _Tab2State extends State<Tab2> {
   get numchallenge => widget.data.length;
 
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () async {
-        setState(() {
-          print('Refreshed');
-        });
-      },
+      onRefresh: _refresh,
       child: Column(
         children:[
           Container(
@@ -362,11 +400,56 @@ class _Tab2State extends State<Tab2> {
       ),
     );
   }
+  Future<void> _refresh() async {
+    try {
+      print('Refreshing Tab2');
+
+      await Future.delayed(Duration(seconds: 2));
+
+      _missionRequest(Provider.of<Store1>(context, listen: false).token);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Tab2 refreshed')),
+      );
+    } catch (error) {
+      print('Error during refresh: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during refresh')),
+      );
+    }
+  }
+
+  Future<void> _missionRequest(String token) async {
+    try {
+      String mytoken = token;
+      final response = await http.get(
+        Uri.parse('http://34.47.91.250:8080/api/v1/mission'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $mytoken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('mission API Response:${jsonDecode(utf8.decode(response.bodyBytes))}');
+        setState(() {
+          widget.data = jsonDecode(utf8.decode(response.bodyBytes));
+        });
+        // 여기서 응답을 처리하거나 상태를 업데이트할 수 있습니다.
+      } else {
+        print('mission API Request Failed with Status Code: ${response.statusCode}');
+        // 실패한 경우에 대한 처리를 추가할 수 있습니다.
+      }
+    } catch (error) {
+      print('Error during API Request: $error');
+    }
+  }
 }
 
 class Tab3 extends StatefulWidget {
    Tab3({super.key, this.data2});
-final data2;
+late final data2;
 
   @override
   State<Tab3> createState() => _Tab3State();
@@ -382,14 +465,54 @@ class _Tab3State extends State<Tab3> {
         title: Text('Rank'),
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {
-            print('Refreshed');
-          });
-        },
+        onRefresh: _refresh,
         child: Center(
           child: Text('$Score',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
         ),
       ),);
+  }
+  Future<void> _refresh() async {
+    try {
+      print('Refreshing Tab3');
+
+      await Future.delayed(Duration(seconds: 2));
+
+      _itemRequest(Provider.of<Store1>(context, listen: false).token);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Tab3 refreshed')),
+      );
+    } catch (error) {
+      print('Error during refresh: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during refresh')),
+      );
+    }
+  }
+  Future<void> _itemRequest(String token) async {
+    try {
+      String mytoken = token;
+      final response = await http.get(
+        Uri.parse('http://34.47.91.250:8080/api/v1/auth/profile'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $mytoken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('item API Response:${jsonDecode(response.body)}');
+        setState(() {
+          widget.data2 = jsonDecode(response.body);
+        });
+        // 여기서 응답을 처리하거나 상태를 업데이트할 수 있습니다.
+      } else {
+        print('item API Request Failed with Status Code: ${response.statusCode}');
+        // 실패한 경우에 대한 처리를 추가할 수 있습니다.
+      }
+    } catch (error) {
+      print('Error during API Request: $error');
+    }
   }
 }
