@@ -1,9 +1,10 @@
 package com.gdsc.solutionchallenge.app.domain;
 
-import com.gdsc.solutionchallenge.mission.domain.Mission;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.engine.spi.ManagedEntity;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,27 +19,26 @@ public class Species {
     @Column(name = "species_id")
     private Long id;
 
+    @Column(name = "scientific_name")
     private String scientificName;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "species")
-    private Mission mission;
+    @Column(name = "korea_name")
+    private String koreaName;
 
-    // todo 한글명, description이 필요
+    private String kingdom;
 
     @OneToMany(mappedBy = "species", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> image = new ArrayList<>();
 
     @Builder
-    public Species(String scientificName) {
+    public Species(String scientificName, String koreaName, String kingdom) {
         this.scientificName = scientificName;
+        this.koreaName = koreaName;
+        this.kingdom = kingdom;
     }
 
     // 연관관계 메서드
     public void addImage(Image image) {
         this.image.add(image);
-    }
-
-    public void setMission(Mission mission) {
-        this.mission = mission;
     }
 }

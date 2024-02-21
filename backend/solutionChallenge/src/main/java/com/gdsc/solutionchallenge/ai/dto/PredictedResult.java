@@ -10,9 +10,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class PredictedResult {
 
-    @JsonProperty("living things")
+    @JsonProperty("living_things")
     private String livingThings;
 
-    @JsonProperty("scientific name")
+    @JsonProperty("scientific_name")
     private String scientificName;
+
+    @JsonProperty("korea_name")
+    private String koreaName;
+
+    private String kingdom;
 }

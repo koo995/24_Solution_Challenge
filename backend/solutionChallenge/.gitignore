@@ -36,6 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 
+### queryDsl ###
+src/main/generated/
 
 ### firebase ###
 src/main/resources/firebase.json
+### google sql ###
+src/main/resources/storageKey.json

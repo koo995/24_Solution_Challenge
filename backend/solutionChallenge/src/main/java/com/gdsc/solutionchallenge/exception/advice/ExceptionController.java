@@ -3,6 +3,7 @@ package com.gdsc.solutionchallenge.exception.advice;
 import com.gdsc.solutionchallenge.ai.exception.GeminiException;
 import com.gdsc.solutionchallenge.ai.exception.NoCreatureException;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
+import com.gdsc.solutionchallenge.app.exception.MaxUploadSizeException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
@@ -81,6 +82,7 @@ public class ExceptionController {
         ErrorResponse response = ErrorResponse.builder()
                 .code(String.valueOf(e.getStatusCode()))
                 .message(e.getMessage())
+                .validation(e.getValidation())
                 .build();
         return response;
     }
@@ -125,12 +127,24 @@ public class ExceptionController {
         return response;
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse ExceptionHandler(Exception e) {
-        return ErrorResponse.builder()
-                .code(String.valueOf(500))
-                .message("server error! 카톡으로 연락주세용")
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MaxUploadSizeException.class)
+    public ErrorResponse MaxUploadSizeExceptionHandler(MaxUploadSizeException e) {
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
                 .build();
+        return response;
     }
+
+
+
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(Exception.class)
+//    public ErrorResponse ExceptionHandler(Exception e) {
+//        return ErrorResponse.builder()
+//                .code(String.valueOf(500))
+//                .message("server error! 카톡으로 연락주세용")
+//                .build();
+//    }
 }

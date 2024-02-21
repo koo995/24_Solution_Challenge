@@ -3,6 +3,7 @@ package com.gdsc.solutionchallenge.mission.controller;
 import com.gdsc.solutionchallenge.auth.annotation.Login;
 import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
+import com.gdsc.solutionchallenge.mission.dto.response.MissionCreateResponse;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionDetail;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionResult;
@@ -18,37 +19,32 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class MissionController {
 
     private final MissionService missionService;
 
     @PostMapping("/api/v1/mission")
-    public String create(@RequestBody MissionCreateDto missionCreateDto, @Login Member loginMember, RedirectAttributes redirectAttributes) {
+    public MissionCreateResponse create(@RequestBody MissionCreateDto missionCreateDto, @Login Member loginMember) {
         Long missionId = missionService.createMission(missionCreateDto, loginMember);
-        redirectAttributes.addAttribute("missionId", missionId);
-        return "redirect:/api/v1/mission/{missionId}";
+        return new MissionCreateResponse(missionId);
     }
 
-    @ResponseBody
     @GetMapping("/api/v1/mission")
     public List<MissionListResponse> list(@Login Member loginMember) {
         List<MissionListResponse> response = missionService.getList(loginMember);
         return response;
     }
 
-    @ResponseBody
     @GetMapping("/api/v1/mission/{missionId}")
     public MissionDetail detail(@PathVariable(name = "missionId") Long missionId, @Login Member loginMember) {
         return missionService.detail(missionId, loginMember);
     }
 
-    @ResponseBody
     @PostMapping("/api/v1/mission/{missionId}")
     public MissionResult upload(@PathVariable(name = "missionId") Long missionId,
                                 @Login Member loginMember,
                                 @RequestParam("file") MultipartFile file) {
-        Long imageId = missionService.imageUpload(missionId, loginMember, file);
-        return new MissionResult(imageId);
+        return missionService.imageUpload(missionId, loginMember, file);
     }
 }

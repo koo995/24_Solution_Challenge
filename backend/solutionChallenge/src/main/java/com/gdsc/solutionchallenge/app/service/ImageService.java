@@ -4,6 +4,7 @@ import com.gdsc.solutionchallenge.ai.dto.PredictedResult;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
+import com.gdsc.solutionchallenge.app.dto.response.ImageCreateResponse;
 import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
@@ -34,7 +35,7 @@ public class ImageService {
     }
 
     @Transactional
-    public Long create(UserImageRequest userImageRequest, PredictedResult predictedResult, Member loginMember){
+    public ImageCreateResponse create(UserImageRequest userImageRequest, PredictedResult predictedResult, Member loginMember){
         MultipartFile file = userImageRequest.getFile();
         // 메타데이터 추출.
         LatLng latLng;
@@ -47,18 +48,19 @@ public class ImageService {
         String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
         Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
-                .orElse(new Species(predictedResult.getScientificName()));
+                .orElse(new Species(predictedResult.getScientificName(), predictedResult.getKoreaName(), predictedResult.getKingdom()));
         Image image = Image.builder()
                 .uploadFileName(file.getOriginalFilename())
                 .fullPath(fullPath)
                 .type(file.getContentType())
                 .latLng(latLng)
                 .build();
+        int score = loginMember.addScore(10);
         image.setSpecies(species);
         image.setMember(loginMember);
         // 이미지포스트 저장
         speciesRepository.save(species);
-        Long imageId = imageRepository.save(image).getId();
-        return imageId;
+        imageRepository.save(image).getId();
+        return new ImageCreateResponse(predictedResult.getScientificName(), predictedResult.getKoreaName(), image.getId(), score);
     }
 }

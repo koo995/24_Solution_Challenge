@@ -10,14 +10,18 @@ public class ImageInfoDto {
     @JsonIgnore
     private String scientificName;
 
+    @JsonIgnore
+    private String koreaName;
+
     private Long imageId;
 
     private String createdAt;
 
     private CustomLatLng location;
 
-    public ImageInfoDto(String scientificName,Long imageId, String createdAt, LatLng latLng) {
+    public ImageInfoDto(String scientificName, String koreaName, Long imageId, String createdAt, LatLng latLng) {
         this.scientificName = scientificName;
+        this.koreaName = koreaName;
         this.imageId = imageId;
         this.createdAt = createdAt;
         this.location = new CustomLatLng(latLng);

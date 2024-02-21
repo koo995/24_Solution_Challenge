@@ -20,7 +20,7 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
     public SpeciesImagesInfoDto findByIdWithImages(Long speciesId) {
 
         List<ImageInfoDto> image = em.createQuery(
-                        "select new com.gdsc.solutionchallenge.app.dto.response.ImageInfoDto(s.scientificName, i.id, i.createdDate, i.latLng)" +
+                        "select new com.gdsc.solutionchallenge.app.dto.response.ImageInfoDto(s.scientificName, s.koreaName, i.id, i.createdDate, i.latLng)" +
                                 " from Species s" +
                                 " join s.image i" +
                                 " where s.id = :speciesId", ImageInfoDto.class)
@@ -29,8 +29,13 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
         if (image.isEmpty()) {
             throw new NoSpeciesException();
         }
-        String scientificName = image.get(0).getScientificName();
+        ImageInfoDto imageInfoDto = image.get(0);
 
-        return new SpeciesImagesInfoDto(speciesId, scientificName, image);
+
+        return SpeciesImagesInfoDto.builder()
+                .scientificName(imageInfoDto.getScientificName())
+                .koreaName(imageInfoDto.getKoreaName())
+                .speciesId(speciesId)
+                .images(image).build();
     }
 }

@@ -16,6 +16,7 @@ import com.gdsc.solutionchallenge.mission.domain.Mission;
 import com.gdsc.solutionchallenge.mission.dto.request.MissionCreateDto;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionDetail;
 import com.gdsc.solutionchallenge.mission.dto.response.MissionListResponse;
+import com.gdsc.solutionchallenge.mission.dto.response.MissionResult;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyCompletedMissionException;
 import com.gdsc.solutionchallenge.mission.exception.AlreadyExistSpeciesMissionException;
 import com.gdsc.solutionchallenge.mission.exception.MissionFailException;
@@ -100,7 +101,9 @@ public class MissionService {
         return MissionDetail.builder()
                 .title(mission.getTitle())
                 .createdAt(mission.getCreatedDate())
-                .speciesName(mission.getSpecies().getScientificName())
+                .scientificName(mission.getSpecies().getScientificName())
+                .koreaName(mission.getSpecies().getKoreaName())
+                .speciesId(mission.getSpecies().getId())
                 .description(mission.getDescription())
                 .missionId(missionId)
                 .imageUrl(mission.getImageUrl())
@@ -110,7 +113,7 @@ public class MissionService {
 
     // 이미지 아이디를 반환 받을까?
     @Transactional
-    public Long imageUpload(Long missionId, Member loginMember, MultipartFile file) {
+    public MissionResult imageUpload(Long missionId, Member loginMember, MultipartFile file) {
         // 우선 미션아이디로부터 어떤 종에 해당하는지 찾아야 한다.
         // 먼저 미션에 성공했는지 부터 따져보자.
         // 성공한 것이 없다면
@@ -132,6 +135,7 @@ public class MissionService {
             throw new MissionFailException();
         }
         MemberMission.createMemberMission(mission, loginMember);
+        int score = loginMember.addScore(20);
         // 메타데이터 추출해보고 올바르면 저장.
         LatLng latLng;
         try {
@@ -149,6 +153,6 @@ public class MissionService {
         image.setMember(loginMember);
         image.setSpecies(mission.getSpecies());
         imageRepository.save(image);
-        return image.getId();
+        return new MissionResult(image.getId(), score);
     }
 }
