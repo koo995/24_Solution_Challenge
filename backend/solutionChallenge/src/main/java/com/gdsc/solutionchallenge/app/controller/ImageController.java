@@ -21,10 +21,9 @@ public class ImageController {
     private final GeminiMainService geminiMainService;
 
     @PostMapping("/api/v1/image")
-    public ImageCreateResponse create(@ModelAttribute UserImageRequest userImageRequest, @Login Member LoginMember) {
+    public Long create(@ModelAttribute UserImageRequest userImageRequest, @Login Member LoginMember) {
         PredictedResult prediction = geminiMainService.prediction(userImageRequest.getFile());
-        Long imageId = imageService.create(userImageRequest, prediction, LoginMember);
-        return new ImageCreateResponse(prediction.getScientificName(), prediction.getKoreaName(), imageId);
+        return imageService.create(userImageRequest, prediction, LoginMember);
     }
 
     @GetMapping("/api/v1/image/{imageId}")
