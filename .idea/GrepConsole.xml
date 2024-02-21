@@ -114,6 +114,39 @@
                           </GrepCompositeModel>
                         </option>
                       </Pin>
+                      <Pin>
+                        <option name="consoleUUID" value="1a7c0c86-ced1-4375-821d-f20bc7dd9e07" />
+                        <option name="contentType" value="ConsoleContent" />
+                        <option name="grepCompositeModel">
+                          <GrepCompositeModel>
+                            <option name="models">
+                              <list>
+                                <GrepModel>
+                                  <option name="exclude" value="true" />
+                                  <option name="expression" value="Too many Flogger logs" />
+                                </GrepModel>
+                              </list>
+                            </option>
+                          </GrepCompositeModel>
+                        </option>
+                      </Pin>
+                      <Pin>
+                        <option name="consoleUUID" value="7e01dbeb-9a25-4e0f-906a-9c445074eb8b" />
+                        <option name="contentType" value="ConsoleContent" />
+                        <option name="grepCompositeModel">
+                          <GrepCompositeModel>
+                            <option name="models">
+                              <list>
+                                <GrepModel>
+                                  <option name="exclude" value="true" />
+                                  <option name="expression" value="updateAcquireFence" />
+                                </GrepModel>
+                              </list>
+                            </option>
+                          </GrepCompositeModel>
+                        </option>
+                        <option name="parentConsoleUUID" value="1a7c0c86-ced1-4375-821d-f20bc7dd9e07" />
+                      </Pin>
                     </list>
                   </option>
                 </Pins>

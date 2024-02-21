@@ -21,6 +21,7 @@ class CameraPage extends StatefulWidget {
 class _CameraPageState extends State<CameraPage> {
   File? _image;
   final picker = ImagePicker();
+  bool isLoading = false;
 
   // 비동기 처리를 통해 카메라와 갤러리에서 이미지를 가져온다.
   Future<void> getImage(ImageSource imageSource) async {
@@ -34,37 +35,86 @@ class _CameraPageState extends State<CameraPage> {
 
   Future<void> _imageUpload(File imageFile, String token) async {
     try {
+      setState(() {
+        isLoading = true; // 로딩 상태 시작
+      });
+
       // 서버 엔드포인트 설정
       // 이미지를 서버로 업로드하기 위한 request 생성
-      String apiUrl = 'http://34.47.91.250:8080/api/v1/image'; // 실제 API 엔드포인트로 변경
+      String apiUrl = 'http://34.47.91.250:8080/api/v1/image';
 
       Dio dio = Dio();
       dio.interceptors.add(AwesomeDioInterceptor());
       dio.options.contentType = 'multipart/form-data';
       dio.options.headers['Authorization'] = 'Bearer $token';
 
-      print('확인해보기 1 ㅋ');
       FormData formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(imageFile.path, filename: 'uploaded_image',contentType: new MediaType('image', 'jpeg'),
-            ),
+        'file': await MultipartFile.fromFile(imageFile.path, filename: 'uploaded_image', contentType: new MediaType('image', 'jpeg')),
       });
-      print('확인해보기 2 ㅋ');
       Response response = await dio.post(apiUrl, data: formData);
+
+      // 로딩 상태 종료
+      setState(() {
+        isLoading = false;
+      });
       // 서버 응답 확인
-      print(' 확인해보기 3 ㅋ');
       if (response.statusCode == 200) {
         print('이미지 업로드 성공');
-
+        // 업로드 성공 시 팝업창 표시
+        _showUploadSuccessPopup();
       } else {
         print('이미지 업로드 실패: ${response.statusCode}');
         print('서버 응답 데이터: ${response?.data}');
         print('formdata: $formData');
+        _showFailedPopup();
       }
     } catch (e) {
       print('에러 발생: $e');
+      _showFailedPopup();
+      // 로딩 상태 종료
+      setState(() {
+        isLoading = false;
+      });
     }
   }
-
+  void _showUploadSuccessPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('이미지 업로드 성공'),
+          content: Text('이미지가 성공적으로 업로드되었습니다.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showFailedPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('이미지 업로드 실패'),
+          content: Text('다시 촬영해주세요'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations(
@@ -96,21 +146,33 @@ class _CameraPageState extends State<CameraPage> {
               Container(
                 margin: EdgeInsets.all(10),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lightGreen,
+                  ),
                 onPressed: () async {
                   getImage(ImageSource.camera);
                 },
-                child: Text('카메라'),
+                child: Text('카메라',style: TextStyle(color: Colors.black),),
                           ),
               ),
               Container(
                 margin: EdgeInsets.all(10),
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lightGreen,
+                  ),
                   onPressed: () async {
                     getImage(ImageSource.gallery);
                   },
-                  child: Text('갤러리'),
+                  child: Text('갤러리',style: TextStyle(color: Colors.black),),
                 ),
-              ),],
+              ),
+              if (isLoading)
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: CircularProgressIndicator(),
+                ),
+            ],
           ),
       
         ],

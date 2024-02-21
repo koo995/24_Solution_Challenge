@@ -64,6 +64,13 @@ class SignInEx extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
+
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(200, 50),
+            primary: Colors.grey,
+            onPrimary: Colors.white,
+            textStyle: TextStyle(fontSize: 20),
+          ),
           onPressed: () async {
                        // Google 로그인 수행
             UserCredential? userCredential = await _handleSignIn();
@@ -77,7 +84,7 @@ class SignInEx extends StatelessWidget {
               print('로그인 실패');
             }
           },
-          child: Text('Google 로그인'),
+          child: Text('Google Login'),
         ),
       ),
     );
