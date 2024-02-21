@@ -103,6 +103,7 @@ public class MissionService {
                 .createdAt(mission.getCreatedDate())
                 .scientificName(mission.getSpecies().getScientificName())
                 .koreaName(mission.getSpecies().getKoreaName())
+                .speciesId(mission.getSpecies().getId())
                 .description(mission.getDescription())
                 .missionId(missionId)
                 .imageUrl(mission.getImageUrl())
