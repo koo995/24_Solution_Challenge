@@ -1,10 +1,10 @@
-package com.gdsc.solutionchallenge.member.dto;
+package com.gdsc.solutionchallenge.member.dto.response;
 
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
 @Getter
-public class MainProfileResponseDto extends ProfileResponseDto{
+public class MainProfileResponseDto extends ProfileResponseDto {
 
     private Long totalImage;
 

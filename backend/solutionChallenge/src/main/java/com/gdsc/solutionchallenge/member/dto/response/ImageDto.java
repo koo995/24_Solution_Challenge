@@ -1,4 +1,4 @@
-package com.gdsc.solutionchallenge.member.dto;
+package com.gdsc.solutionchallenge.member.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
