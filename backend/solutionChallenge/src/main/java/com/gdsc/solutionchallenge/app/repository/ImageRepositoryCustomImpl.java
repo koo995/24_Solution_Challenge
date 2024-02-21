@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
                 .from(image)
                 .join(species).on(image.species.id.eq(species.id))
                 .where(image.member.id.eq(memberId),
-                        species.kingdom.eq(filterCondition.getKingdom()))
+                        StringUtils.hasText(filterCondition.getKingdom()) ? species.kingdom.eq(filterCondition.getKingdom()) : null)
                 .fetchOne();
 
         List<ImageDto> images = jpaQueryFactory
@@ -38,7 +39,7 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
                 .join(image).on(image.member.id.eq(member.id))
                 .join(species).on(image.species.id.eq(species.id))
                 .where(member.id.eq(memberId),
-                        species.kingdom.eq(filterCondition.getKingdom()))
+                        StringUtils.hasText(filterCondition.getKingdom()) ? species.kingdom.eq(filterCondition.getKingdom()) : null)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
