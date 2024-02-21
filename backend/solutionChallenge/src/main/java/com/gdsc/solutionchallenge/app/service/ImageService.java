@@ -7,7 +7,6 @@ import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
 import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
-import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.file.FileStore;

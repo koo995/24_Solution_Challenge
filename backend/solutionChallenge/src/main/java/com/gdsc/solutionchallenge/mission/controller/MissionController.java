@@ -45,7 +45,6 @@ public class MissionController {
     public MissionResult upload(@PathVariable(name = "missionId") Long missionId,
                                 @Login Member loginMember,
                                 @RequestParam("file") MultipartFile file) {
-        Long imageId = missionService.imageUpload(missionId, loginMember, file);
-        return new MissionResult(imageId);
+        return missionService.imageUpload(missionId, loginMember, file);
     }
 }
