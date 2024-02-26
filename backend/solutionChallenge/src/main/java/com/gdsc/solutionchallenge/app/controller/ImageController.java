@@ -28,7 +28,6 @@ public class ImageController {
 
     @GetMapping("/api/v1/image/{imageId}")
     public ImageDetailResponse detail(@PathVariable(name = "imageId") Long imageId) {
-        ImageDetailResponse response = imageService.findImageById(imageId);
-        return response;
+        return imageService.findImageById(imageId);
     }
 }
