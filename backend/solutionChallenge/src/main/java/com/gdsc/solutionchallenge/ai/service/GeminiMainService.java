@@ -9,6 +9,7 @@ import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.api.*;
 import com.google.cloud.vertexai.generativeai.preview.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.preview.PartMaker;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,46 +19,22 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class GeminiMainService {
 
+    private final GenerativeModel model;
+
     public PredictedResult prediction(MultipartFile file) {
         String inferSpeciesPrompt = "You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nIf there is a living things, infer the exact scientific name of the creature.\nprovide the output in json format with \"living_things: true or false\", \"scientific_name\" , \"korea_name\" of scientific_name field.\nAnd add a field corresponding to \"\bkingdom\" and add it to the field \"kingdom\" whether the life equivalent to the scientific name is animal or plant.";
-        //todo 여기서 계속 모델을 생성해야 할까? 싱글톤으로 미리 만들어 놓으면 더 빠를 수 있지 않을까. 잠시만 저 위에 @Service 저거... 그냥 둬도 되나?
-        try (VertexAI vertexAi = new VertexAI("gdsc-seoultech", "asia-northeast3");) {
-            GenerationConfig generationConfig =
-                    GenerationConfig.newBuilder()
-                            .setMaxOutputTokens(2048)
-                            .setTemperature(0.1F)
-                            .setTopK(15)
-                            .setTopP(0.7F)
-                            .build();
-            GenerativeModel model = new GenerativeModel("gemini-pro-vision", generationConfig, vertexAi);
-            List<SafetySetting> safetySettings = Arrays.asList(
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_HATE_SPEECH)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build(),
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build(),
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build(),
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_HARASSMENT)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build()
-            );
+        try {
             List<Content> contents = new ArrayList<>();
             contents.add(Content.newBuilder()
                     .setRole("user")
                     .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
                     .addParts(Part.newBuilder().setText(inferSpeciesPrompt))
                     .build());
-            GenerateContentResponse generateContentResponse = model.generateContent(contents, safetySettings);
+            GenerateContentResponse generateContentResponse = model.generateContent(contents);
             String text = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
             System.out.println("text = " + text);
             log.info("gemini={}", text);
