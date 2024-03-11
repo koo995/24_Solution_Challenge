@@ -45,13 +45,13 @@ spring:
         show_sql: true
         format_sql: true
 
-  cloud:
-    gcp:
-      storage:
-        credentials:
-          location: classpath:gcp-service.json
-        project-id: solchall-project
-        bucket: solchall-project
+#  cloud:
+#    gcp:
+#      storage:
+#        credentials:
+#          location: classpath:solchall.json
+#        project-id: solchall-project
+#        bucket: ecospot-seoultech
 
 firebase:
   credential:
