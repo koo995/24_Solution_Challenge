@@ -1,6 +1,6 @@
 package com.gdsc.solutionchallenge.app.controller;
 
-import com.gdsc.solutionchallenge.ai.dto.PredictedResult;
+import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.ai.service.GeminiMainService;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.dto.response.ImageCreateResponse;
@@ -22,7 +22,7 @@ public class ImageController {
 
     @PostMapping("/api/v1/image")
     public ImageCreateResponse create(@ModelAttribute UserImageRequest userImageRequest, @Login Member LoginMember) {
-        PredictedResult prediction = geminiMainService.prediction(userImageRequest.getFile());
+        InferPredictedResult prediction = geminiMainService.inferPrediction(userImageRequest.getFile());
         return imageService.create(userImageRequest, prediction, LoginMember);
     }
 

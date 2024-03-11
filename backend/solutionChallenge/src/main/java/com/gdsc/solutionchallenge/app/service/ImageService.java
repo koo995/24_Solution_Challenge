@@ -1,6 +1,6 @@
 package com.gdsc.solutionchallenge.app.service;
 
-import com.gdsc.solutionchallenge.ai.dto.PredictedResult;
+import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
@@ -35,7 +35,7 @@ public class ImageService {
     }
 
     @Transactional
-    public ImageCreateResponse create(UserImageRequest userImageRequest, PredictedResult predictedResult, Member loginMember){
+    public ImageCreateResponse create(UserImageRequest userImageRequest, InferPredictedResult inferPredictedResult, Member loginMember){
         MultipartFile file = userImageRequest.getFile();
         // 메타데이터 추출.
         LatLng latLng;
@@ -47,8 +47,8 @@ public class ImageService {
         // 이미지 저장
         String fullPath = fileStore.storeFile(file);
         // 종을 가져옴 or 생성
-        Species species = speciesRepository.findByScientificName(predictedResult.getScientificName())
-                .orElse(new Species(predictedResult.getScientificName(), predictedResult.getKoreaName(), predictedResult.getKingdom()));
+        Species species = speciesRepository.findByScientificName(inferPredictedResult.getScientificName())
+                .orElse(new Species(inferPredictedResult.getScientificName(), inferPredictedResult.getKoreaName(), inferPredictedResult.getKingdom()));
         Image image = Image.builder()
                 .uploadFileName(file.getOriginalFilename())
                 .fullPath(fullPath)
@@ -61,6 +61,6 @@ public class ImageService {
         // 이미지포스트 저장
         speciesRepository.save(species);
         imageRepository.save(image).getId();
-        return new ImageCreateResponse(predictedResult.getScientificName(), predictedResult.getKoreaName(), image.getId(), score);
+        return new ImageCreateResponse(inferPredictedResult.getScientificName(), inferPredictedResult.getKoreaName(), image.getId(), score);
     }
 }
