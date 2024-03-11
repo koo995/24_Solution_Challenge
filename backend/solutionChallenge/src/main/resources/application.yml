@@ -49,9 +49,9 @@ spring:
     gcp:
       storage:
         credentials:
-          location: classpath:storageKey.json
-        project-id: gdsc-seoultech
-        bucket: gdsc-solchell
+          location: classpath:gcp-service.json
+        project-id: solchall-project
+        bucket: solchall-project
 
 firebase:
   credential:

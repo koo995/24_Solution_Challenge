@@ -42,4 +42,4 @@ src/main/generated/
 ### firebase ###
 src/main/resources/firebase.json
 ### google sql ###
-src/main/resources/storageKey.json
+src/main/resources/gcp-service.json
