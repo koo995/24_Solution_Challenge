@@ -130,7 +130,7 @@ public class MissionService {
             throw new AlreadyCompletedMissionException();
         });
         String scientificName = mission.getSpecies().getScientificName();
-        Boolean result = geminiMainService.trueFalsePrediction(file, scientificName);
+        Boolean result = geminiMainService.booleanPrediction(file, scientificName);
         if (!result) {
             throw new MissionFailException();
         }
