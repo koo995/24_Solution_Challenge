@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,12 +29,7 @@ public class GeminiMainService {
     public PredictedResult prediction(MultipartFile file) {
         String inferSpeciesPrompt = "You are the best biologist in the world.\nFirst, check if there are any living things in the picture above.\nIf there is a living things, infer the exact scientific name of the creature.\nprovide the output in json format with \"living_things: true or false\", \"scientific_name\" , \"korea_name\" of scientific_name field.\nAnd add a field corresponding to \"\bkingdom\" and add it to the field \"kingdom\" whether the life equivalent to the scientific name is animal or plant.";
         try {
-            List<Content> contents = new ArrayList<>();
-            contents.add(Content.newBuilder()
-                    .setRole("user")
-                    .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
-                    .addParts(Part.newBuilder().setText(inferSpeciesPrompt))
-                    .build());
+            List<Content> contents = getContents(file, inferSpeciesPrompt);
             GenerateContentResponse generateContentResponse = model.generateContent(contents);
             String text = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
             System.out.println("text = " + text);
@@ -51,43 +47,12 @@ public class GeminiMainService {
         }
     }
 
+
     public Boolean trueFalsePrediction(MultipartFile file, String scientificName) {
         String trueOrFalsePrompt = String.format("You are the best biologist in the world.\nPlease provide the output in json format with \"living_things: true or false\", \"infer_result: true or false\" .\nFirst, check if there are any living things in the picture above.\nIf there is a creature, the \"living_things\" field is true. If not, please provide false.\nAnd infer if the creature's exact scientific name is \"%s\".\nIf the inference result is correct, the field value of \"infer_result\" is true, otherwise, please provide false.", scientificName);
-        //todo 여기서 계속 모델을 생성해야 할까? 싱글톤으로 미리 만들어 놓으면 더 빠를 수 있지 않을까
-        try (VertexAI vertexAi = new VertexAI("gdsc-seoultech", "asia-northeast3");) {
-            GenerationConfig generationConfig =
-                    GenerationConfig.newBuilder()
-                            .setMaxOutputTokens(2048)
-                            .setTemperature(0.1F)
-                            .setTopK(15)
-                            .setTopP(0.7F)
-                            .build();
-            GenerativeModel model = new GenerativeModel("gemini-pro-vision", generationConfig, vertexAi);
-            List<SafetySetting> safetySettings = Arrays.asList(
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_HATE_SPEECH)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build(),
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build(),
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build(),
-                    SafetySetting.newBuilder()
-                            .setCategory(HarmCategory.HARM_CATEGORY_HARASSMENT)
-                            .setThreshold(SafetySetting.HarmBlockThreshold.BLOCK_ONLY_HIGH)
-                            .build()
-            );
-            List<Content> contents = new ArrayList<>();
-            contents.add(Content.newBuilder()
-                    .setRole("user")
-                    .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
-                    .addParts(Part.newBuilder().setText(trueOrFalsePrompt))
-                    .build());
-            GenerateContentResponse generateContentResponse = model.generateContent(contents, safetySettings);
+        try {
+            List<Content> contents = getContents(file, trueOrFalsePrompt);
+            GenerateContentResponse generateContentResponse = model.generateContent(contents);
             String text = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
             log.info("gemini={}", text);
             ObjectMapper objectMapper = new ObjectMapper(); // todo objectMapper()말고 resolver을 활용하면 어떨까
@@ -103,5 +68,15 @@ public class GeminiMainService {
             log.info("exception:",e);
             throw new GeminiException("image", e.getMessage());
         }
+    }
+
+    private static List<Content> getContents(MultipartFile file, String inferSpeciesPrompt) throws IOException {
+        List<Content> contents = new ArrayList<>();
+        contents.add(Content.newBuilder()
+                .setRole("user")
+                .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
+                .addParts(Part.newBuilder().setText(inferSpeciesPrompt))
+                .build());
+        return contents;
     }
 }
