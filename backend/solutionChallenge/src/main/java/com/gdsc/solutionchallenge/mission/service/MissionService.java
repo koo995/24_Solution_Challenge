@@ -9,7 +9,7 @@ import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.auth.exception.UnAuthorizedException;
-import com.gdsc.solutionchallenge.file.FileStore;
+import com.gdsc.solutionchallenge.file.FileStoreService;
 import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.mission.domain.MemberMission;
 import com.gdsc.solutionchallenge.mission.domain.Mission;
@@ -36,7 +36,7 @@ import java.util.List;
 @Service
 public class MissionService {
 
-    private final FileStore fileStore;
+    private final FileStoreService fileStoreService;
 
     private final MissionRepository missionRepository;
 
@@ -143,7 +143,7 @@ public class MissionService {
         } catch (Exception e) {
             throw new NoLatLngException();
         }
-        String imageUrl = fileStore.storeFile(file);
+        String imageUrl = fileStoreService.storeFile(file);
         Image image = Image.builder()
                 .fullPath(imageUrl)
                 .latLng(latLng)
