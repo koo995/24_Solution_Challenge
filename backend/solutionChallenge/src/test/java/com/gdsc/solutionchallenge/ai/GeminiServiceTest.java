@@ -1,38 +1,21 @@
 package com.gdsc.solutionchallenge.ai;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.ai.service.GeminiMainService;
-import com.google.cloud.vertexai.generativeai.preview.GenerativeModel;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
-import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class GeminiServiceTest {
-
-    @Autowired
-    private ResourceLoader loader;
-
-    @Autowired
-    private GenerativeModel model;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private GeminiMainService geminiMainService;
@@ -42,7 +25,7 @@ class GeminiServiceTest {
     void inferPrediction() throws Exception {
         // given
         String fileName = "lion.jpeg";
-        MultipartFile file = new MockMultipartFile("file", fileName, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/lion.jpeg"));
+        MultipartFile file = new MockMultipartFile("file", fileName, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName));
 
         // when
         InferPredictedResult inferPredictedResult = geminiMainService.inferPrediction(file);
@@ -54,4 +37,23 @@ class GeminiServiceTest {
     }
 
 
+    @DisplayName("주어진 종에 해당하는 이미지가 주어져야 한다..")
+    @Test
+    void booleanPrediction() throws Exception {
+        // given
+        String fileName1 = "lion.jpeg";
+        String fileName2 = "cat.jpeg";
+        String scientificName = "Panthera leo";
+        MultipartFile file1 = new MockMultipartFile("file", fileName1, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName1));
+        MultipartFile file2 = new MockMultipartFile("file", fileName2, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName2));
+
+        // when
+        Boolean result1 = geminiMainService.booleanPrediction(file1, scientificName);
+        Boolean result2 = geminiMainService.booleanPrediction(file2, scientificName);
+
+        // then
+        assertTrue(result1 == Boolean.TRUE);
+        assertTrue(result2 == Boolean.FALSE);
+
+    }
 }
