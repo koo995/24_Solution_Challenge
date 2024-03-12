@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.ai.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.ai.dto.BooleanPredictedResult;
@@ -47,37 +48,45 @@ public class GeminiMainService {
 
     public Boolean booleanPrediction(MultipartFile file, String scientificName) {
         String prompt = String.format("You are the best biologist in the world.\nPlease provide the output in json format with \"living_things: true or false\", \"infer_result: true or false\" .\nFirst, check if there are any living things in the picture above.\nIf there is a creature, the \"living_things\" field is true. If not, please provide false.\nAnd infer if the creature's exact scientific name is \"%s\".\nIf the inference result is correct, the field value of \"infer_result\" is true, otherwise, please provide false.", scientificName);
+        String result = prediction(file, prompt);
+        BooleanPredictedResult booleanPredictedResult = null;
         try {
-            String result = prediction(file, prompt);
-            BooleanPredictedResult booleanPredictedResult = objectMapper.readValue(result, BooleanPredictedResult.class);
-            if (booleanPredictedResult.getLivingThings() == "false") {
-                throw new NoCreatureException();
-            }
-            if (booleanPredictedResult.getInferResult() == "false") {
-                return false;
-            }
-            return true;
+            booleanPredictedResult = objectMapper.readValue(result, BooleanPredictedResult.class);
+        } catch (JsonProcessingException e) {
+            throw new GeminiException();
+        }
+        if (booleanPredictedResult.getLivingThings() == "false") {
+            throw new NoCreatureException();
+        }
+        if (booleanPredictedResult.getInferResult() == "false") {
+            return false;
+        }
+        return true;
+    }
+
+    private String prediction(MultipartFile file, String prompt) {
+        List<Content> contents = createContents(file, prompt);
+        try {
+            GenerateContentResponse generateContentResponse = model.generateContent(contents);
+            String result = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
+            log.info("gemini={}", result);
+            return result;
         } catch (Exception e) {
-            log.info("exception:",e);
             throw new GeminiException("image", e.getMessage());
         }
     }
 
-    private String prediction(MultipartFile file, String prompt) throws IOException {
-        List<Content> contents = createContents(file, prompt);
-        GenerateContentResponse generateContentResponse = model.generateContent(contents);
-        String result = generateContentResponse.getCandidates(0).getContent().getParts(0).getText().replace("```json", ""); //todo 여기에 하드코딩으로 인덱싱 해놓은것 뭔가 마음에 안든다.
-        log.info("gemini={}", result);
-        return result;
-    }
-
-    private static List<Content> createContents(MultipartFile file, String prompt) throws IOException {
+    private static List<Content> createContents(MultipartFile file, String prompt) {
         List<Content> contents = new ArrayList<>();
-        contents.add(Content.newBuilder()
-                .setRole("user")
-                .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
-                .addParts(Part.newBuilder().setText(prompt))
-                .build());
-        return contents;
+        try {
+            contents.add(Content.newBuilder()
+                    .setRole("user")
+                    .addParts(PartMaker.fromMimeTypeAndData(file.getContentType(), file.getBytes())) // todo 유효한 이미지 타입이 이닌경우 처리해줘야한다
+                    .addParts(Part.newBuilder().setText(prompt))
+                    .build());
+            return contents;
+        } catch (Exception e) {
+            throw new GeminiException("image", "파일을 읽을 수 없습니다.");
+        }
     }
 }
