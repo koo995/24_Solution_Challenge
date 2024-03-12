@@ -3,19 +3,20 @@ package com.gdsc.solutionchallenge.app.dto.request;
 import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.file.dto.FileStoreInfo;
 import com.gdsc.solutionchallenge.member.domain.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
+// todo 레이어간에 의존성을 줄이기 위함이였는데... dto간에는 의존성이 생긴것 같다. 이거 관찮나
 @Getter
-@Setter
-public class UserImageRequest {
+@AllArgsConstructor
+public class UserImageServiceRequest {
 
     private MultipartFile file;
 
-    public UserImageServiceRequest toServiceRequest(InferPredictedResult prediction, FileStoreInfo fileInfo, Member member) {
-        return new UserImageServiceRequest(file, prediction, fileInfo, member);
-    }
+    private InferPredictedResult prediction;
+
+    private FileStoreInfo fileStoreInfo;
+
+    private Member loginMember;
 }
