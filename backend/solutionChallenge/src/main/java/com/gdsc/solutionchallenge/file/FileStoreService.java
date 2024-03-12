@@ -1,10 +1,10 @@
 package com.gdsc.solutionchallenge.file;
 
+import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
+import com.gdsc.solutionchallenge.file.dto.FileStoreInfo;
 import com.gdsc.solutionchallenge.file.exception.FileSaveException;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
-import com.google.cloud.storage.Storage;
+import com.gdsc.solutionchallenge.utils.ImgMetaDataExtractor;
+import com.google.type.LatLng;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class FileStore {
+public class FileStoreService {
 
     @Value("/Users/keonhongkoo/Desktop/solution_challenge/file/")
     private String fileDir;
@@ -38,6 +38,19 @@ public class FileStore {
         }
         return fullPath;
     }
+
+    public FileStoreInfo extractFileInfoAndSave(MultipartFile file) {
+        // 메타데이터 추출.
+        LatLng latLng;
+        try {
+            latLng = ImgMetaDataExtractor.extractLatLng(file);
+        } catch (Exception e) {
+            throw new NoLatLngException();
+        }
+        String fullPath = storeFile(file);
+        return new FileStoreInfo(latLng, fullPath);
+    }
+
 
     private String createStoreFileName(String originalFilename) {
         String ext = extractExt(originalFilename);
