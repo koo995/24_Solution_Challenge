@@ -104,4 +104,22 @@ class ImageControllerTest {
                 .andExpect(jsonPath("$.koreaName").value("사자"))
                 .andExpect(jsonPath("$.currentScore").value(10));
     }
+
+    @DisplayName("인증되지 않은 사용자는 이미지를 업로드하면 예외가 발생한다.")
+    @Test
+    void createException() throws Exception {
+        // given
+        String fileName = "lion.jpeg";
+        MockMultipartFile file = new MockMultipartFile("file", fileName, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName));
+
+        // when then
+        mockMvc.perform(multipart("/api/v1/image")
+                        .file(file)
+                        .header("Authorization", "Bearer " + idToken + "a")
+                )
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.code").value("401"))
+                .andExpect(jsonPath("$.message").value("사용자 인증이 필요합니다."));
+    }
 }
