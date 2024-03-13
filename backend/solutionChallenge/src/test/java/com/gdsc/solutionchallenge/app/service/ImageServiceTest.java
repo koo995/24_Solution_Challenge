@@ -8,6 +8,7 @@ import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageServiceRequest;
 import com.gdsc.solutionchallenge.app.dto.response.ImageCreateResponse;
 import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
+import com.gdsc.solutionchallenge.app.exception.ImageNotFoundException;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.file.dto.FileStoreInfo;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileInputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Transactional
 @SpringBootTest
@@ -102,9 +104,13 @@ class ImageServiceTest {
         assertThat(response.getLocation()).isNotNull();
         assertThat(response).extracting("scientificName", "koreaName")
                 .containsExactly("sciName", "korName");
-
-
-
     }
 
+    @DisplayName("찾을려는 이미지객체가 없으면 예외가 발생한다.")
+    @Test
+    void findImageById2() throws Exception {
+        Long imageId = 100l;
+        assertThatThrownBy(() -> imageService.findImageById(imageId))
+                .isInstanceOf(ImageNotFoundException.class);
+    }
 }
