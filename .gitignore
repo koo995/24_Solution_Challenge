@@ -1,7 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/flutter,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=flutter,macos,windows
 
-
+# preprocessing
+*.csv
 
 ### Flutter ###
 # Flutter/Dart/Pub related
