@@ -1,11 +1,16 @@
 package com.gdsc.solutionchallenge.app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdsc.solutionchallenge.app.domain.Image;
+import com.gdsc.solutionchallenge.app.domain.Species;
+import com.gdsc.solutionchallenge.app.repository.ImageRepository;
+import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.auth.dto.SignInRequest;
 import com.gdsc.solutionchallenge.auth.dto.SignInResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
+import com.google.type.LatLng;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +31,7 @@ import java.io.FileInputStream;
 import java.net.URI;
 import java.util.HashMap;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -40,6 +47,12 @@ class ImageControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private SpeciesRepository speciesRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     private static String uid;
     private static String idToken;
@@ -121,5 +134,35 @@ class ImageControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.code").value("401"))
                 .andExpect(jsonPath("$.message").value("사용자 인증이 필요합니다."));
+    }
+
+    @DisplayName("인증된 사용자만 imageId을 이용하여 이미지를 조회한다.")
+    @Test
+    void detail() throws Exception {
+        // given
+        LatLng latLng = LatLng.newBuilder()
+                .setLatitude(37.3)
+                .setLongitude(127.5).build();
+        Image image = Image.builder()
+                .uploadFileName("uploadName")
+                .fullPath("/*")
+                .type("jpeg")
+                .latLng(latLng)
+                .build();
+
+        Species species = new Species("sciName", "korName", "animal");
+        image.setSpecies(species);
+        speciesRepository.save((species));
+        Image savedImage = imageRepository.save(image);
+
+        // when then
+        mockMvc.perform(get("/api/v1/image/{imageId}", savedImage.getId())
+                        .header("Authorization", "Bearer " + idToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.scientificName").value("sciName"))
+                .andExpect(jsonPath("$.koreaName").value("korName"))
+                .andExpect(jsonPath("$.url").value("/*"))
+                .andExpect(jsonPath("$.createdAt").exists());
     }
 }
