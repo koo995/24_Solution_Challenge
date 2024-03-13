@@ -1,6 +1,7 @@
 package com.gdsc.solutionchallenge.ai.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,4 +21,12 @@ public class InferPredictedResult {
     private String koreaName;
 
     private String kingdom;
+
+    @Builder
+    public InferPredictedResult(String livingThings, String scientificName, String koreaName, String kingdom) {
+        this.livingThings = livingThings;
+        this.scientificName = scientificName;
+        this.koreaName = koreaName;
+        this.kingdom = kingdom;
+    }
 }
