@@ -165,4 +165,32 @@ class ImageControllerTest {
                 .andExpect(jsonPath("$.url").value("/*"))
                 .andExpect(jsonPath("$.createdAt").exists());
     }
+
+    @DisplayName("존재하지 않는 이미지를 조회하면 예외가 발생한다.")
+    @Test
+    void detailException() throws Exception {
+        // given
+        LatLng latLng = LatLng.newBuilder()
+                .setLatitude(37.3)
+                .setLongitude(127.5).build();
+        Image image = Image.builder()
+                .uploadFileName("uploadName")
+                .fullPath("/*")
+                .type("jpeg")
+                .latLng(latLng)
+                .build();
+
+        Species species = new Species("sciName", "korName", "animal");
+        image.setSpecies(species);
+        speciesRepository.save((species));
+        Image savedImage = imageRepository.save(image);
+        Long nonExistId = savedImage.getId() + 100;
+
+        // when then
+        mockMvc.perform(get("/api/v1/image/{imageId}", nonExistId)
+                        .header("Authorization", "Bearer " + idToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("찾으시는 이미지가 없습니다."));
+    }
 }
