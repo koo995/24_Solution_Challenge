@@ -3,16 +3,16 @@ package com.gdsc.solutionchallenge.app.service;
 import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
+import com.gdsc.solutionchallenge.app.domain.converter.LatLngConverter;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageRequest;
 import com.gdsc.solutionchallenge.app.dto.request.UserImageServiceRequest;
 import com.gdsc.solutionchallenge.app.dto.response.ImageCreateResponse;
+import com.gdsc.solutionchallenge.app.dto.response.ImageDetailResponse;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.gdsc.solutionchallenge.file.dto.FileStoreInfo;
 import com.gdsc.solutionchallenge.member.domain.Member;
 import com.google.type.LatLng;
-import com.google.type.LatLngOrBuilder;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @SpringBootTest
 class ImageServiceTest {
+
+    @Autowired
+    ImageRepository imageRepository;
+
+    @Autowired
+    SpeciesRepository speciesRepository;
 
     @Autowired
     ImageService imageService;
@@ -65,6 +70,40 @@ class ImageServiceTest {
         assertThat(imageCreateResponse)
                 .extracting("scientificName", "koreaName", "currentScore")
                 .containsExactly("sciName", "korName", member.getScore());
+    }
+
+    @DisplayName("id을 이용하여 이미지객체를 찾는다.")
+    @Test
+    void findImageById() throws Exception {
+        // given
+        LatLng latLng = LatLng.newBuilder()
+                .setLatitude(37.3)
+                .setLongitude(127.5).build();
+        Image image = Image.builder()
+                .uploadFileName("uploadName")
+                .fullPath("/*")
+                .type("jpeg")
+                .latLng(latLng)
+                .build();
+
+        Species species = new Species("sciName", "korName", "animal");
+        image.setSpecies(species);
+        speciesRepository.save((species));
+        Image savedImage = imageRepository.save(image);
+        LatLngConverter latLngConverter = new LatLngConverter();
+
+        // when
+        ImageDetailResponse response = imageService.findImageById(savedImage.getId());
+        System.out.println("response = " + response);
+
+        // then
+        assertThat(response.getImageId()).isNotNull();
+        assertThat(response.getSpeciesId()).isNotNull();
+        assertThat(response.getLocation()).isNotNull();
+        assertThat(response).extracting("scientificName", "koreaName")
+                .containsExactly("sciName", "korName");
+
+
 
     }
 
