@@ -30,7 +30,10 @@ public class FirebaseInitializer {
                 .setCredentials(GoogleCredentials.fromStream(inputStream))
                 .build();
 
-        FirebaseApp app = FirebaseApp.initializeApp(options);
-        log.info("FirebaseApp initialized" + app.getName());
+        if (FirebaseApp.getApps().size() == 0) {
+            FirebaseApp.initializeApp(options);
+        } else {
+            FirebaseApp.getApps();
+        }
     }
 }

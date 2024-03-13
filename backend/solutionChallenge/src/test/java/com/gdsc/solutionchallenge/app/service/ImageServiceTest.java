@@ -92,7 +92,6 @@ class ImageServiceTest {
         image.setSpecies(species);
         speciesRepository.save((species));
         Image savedImage = imageRepository.save(image);
-        LatLngConverter latLngConverter = new LatLngConverter();
 
         // when
         ImageDetailResponse response = imageService.findImageById(savedImage.getId());

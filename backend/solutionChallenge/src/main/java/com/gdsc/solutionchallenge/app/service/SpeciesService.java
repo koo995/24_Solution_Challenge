@@ -16,7 +16,6 @@ public class SpeciesService {
     private final SpeciesRepository speciesRepository;
 
     public SpeciesImagesInfoDto findOneOfLocations(Long speciesId) {
-        SpeciesImagesInfoDto speciesImagesInfoDto = speciesRepository.findByIdWithImages(speciesId);
-        return speciesImagesInfoDto;
+        return speciesRepository.findByIdWithImages(speciesId);
     }
 }
