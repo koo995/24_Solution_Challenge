@@ -31,12 +31,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class ImageServiceTest {
 
     @Autowired
-    SpeciesRepository speciesRepository;
-
-    @Autowired
-    ImageRepository imageRepository;
-
-    @Autowired
     ImageService imageService;
 
     @DisplayName("이미지 객체를 생성한다.")
@@ -67,6 +61,7 @@ class ImageServiceTest {
         ImageCreateResponse imageCreateResponse = imageService.create(serviceRequest);
 
         // then
+        assertThat(imageCreateResponse.getImageId()).isNotNull();
         assertThat(imageCreateResponse)
                 .extracting("scientificName", "koreaName", "currentScore")
                 .containsExactly("sciName", "korName", member.getScore());
