@@ -29,7 +29,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    private int score;
+    private int score = 0;
 
     private String uid;
 
@@ -41,10 +41,9 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(String username, String email, int score, String uid) {
+    public Member(String username, String email, String uid) {
         this.username = username;
         this.email = email;
-        this.score = score;
         this.uid = uid;
     }
 
