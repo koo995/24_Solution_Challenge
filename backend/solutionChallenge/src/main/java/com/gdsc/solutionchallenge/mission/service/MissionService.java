@@ -51,7 +51,7 @@ public class MissionService {
         // 먼저 로그인한 사용자가 이미지의 사용자와 일치하는지 체크하자
         Long imageId = missionCreateDto.getImageId();
         Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new ImageNotFoundException(imageId));
+                .orElseThrow(() -> new ImageNotFoundException());
         if (image.getMember().getId() != loginMember.getId()) {
             throw new UnAuthorizedException("권한이 없습니다.");
         }
