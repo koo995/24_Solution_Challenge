@@ -32,7 +32,7 @@ public class FileStoreService {
         String storeFileName = createStoreFileName(originalFilename);
         String fullPath = getFullPath(storeFileName);
         try {
-            multipartFile.transferTo(new File(fullPath)); // todo gcs로 저장해야함
+            multipartFile.transferTo(new File(fullPath));
         } catch (IOException e) {
             throw new FileSaveException();
         }
