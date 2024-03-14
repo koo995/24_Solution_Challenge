@@ -1,7 +1,7 @@
 package com.gdsc.solutionchallenge.app.repository;
 
 import com.gdsc.solutionchallenge.app.dto.response.ImageInfoDto;
-import com.gdsc.solutionchallenge.app.dto.response.SpeciesImagesInfoDto;
+import com.gdsc.solutionchallenge.app.dto.response.SpeciesImagesResponse;
 import com.gdsc.solutionchallenge.app.exception.NoSpeciesException;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
 
     // todo 반드시 쿼리 한번 또는 dsl을 이용하여 최적화를 해보자.
     @Override
-    public SpeciesImagesInfoDto findByIdWithImages(Long speciesId) {
+    public SpeciesImagesResponse findByIdWithImages(Long speciesId) {
 
         List<ImageInfoDto> image = em.createQuery(
                         "select new com.gdsc.solutionchallenge.app.dto.response.ImageInfoDto(s.scientificName, s.koreaName, i.id, i.createdDate, i.latLng)" +
@@ -32,7 +32,7 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
         ImageInfoDto imageInfoDto = image.get(0);
 
 
-        return SpeciesImagesInfoDto.builder()
+        return SpeciesImagesResponse.builder()
                 .scientificName(imageInfoDto.getScientificName())
                 .koreaName(imageInfoDto.getKoreaName())
                 .speciesId(speciesId)

@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class SpeciesImagesInfoDto {
+public class SpeciesImagesResponse {
 
     private Long speciesId;
 
@@ -17,7 +17,7 @@ public class SpeciesImagesInfoDto {
     private List<ImageInfoDto> images;
 
     @Builder
-    public SpeciesImagesInfoDto(Long speciesId, String scientificName, String koreaName, List<ImageInfoDto> images) {
+    public SpeciesImagesResponse(Long speciesId, String scientificName, String koreaName, List<ImageInfoDto> images) {
         this.speciesId = speciesId;
         this.scientificName = scientificName;
         this.koreaName = koreaName;

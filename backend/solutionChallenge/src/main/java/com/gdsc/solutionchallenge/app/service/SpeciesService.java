@@ -1,6 +1,6 @@
 package com.gdsc.solutionchallenge.app.service;
 
-import com.gdsc.solutionchallenge.app.dto.response.SpeciesImagesInfoDto;
+import com.gdsc.solutionchallenge.app.dto.response.SpeciesImagesResponse;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ public class SpeciesService {
 
     private final SpeciesRepository speciesRepository;
 
-    public SpeciesImagesInfoDto findOneOfLocations(Long speciesId) {
+    public SpeciesImagesResponse findOneOfLocations(Long speciesId) {
         return speciesRepository.findByIdWithImages(speciesId);
     }
 }
