@@ -5,7 +5,7 @@ import com.google.type.LatLng;
 import lombok.Getter;
 
 @Getter
-public class ImageInfoDto {
+public class SpeciesImageQuery {
 
     @JsonIgnore
     private String scientificName;
@@ -19,7 +19,7 @@ public class ImageInfoDto {
 
     private CustomLatLng location;
 
-    public ImageInfoDto(String scientificName, String koreaName, Long imageId, String createdAt, LatLng latLng) {
+    public SpeciesImageQuery(String scientificName, String koreaName, Long imageId, String createdAt, LatLng latLng) {
         this.scientificName = scientificName;
         this.koreaName = koreaName;
         this.imageId = imageId;

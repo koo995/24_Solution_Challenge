@@ -14,10 +14,10 @@ public class SpeciesImagesResponse {
 
     private String koreaName;
 
-    private List<ImageInfoDto> images;
+    private List<SpeciesImageQuery> images;
 
     @Builder
-    public SpeciesImagesResponse(Long speciesId, String scientificName, String koreaName, List<ImageInfoDto> images) {
+    public SpeciesImagesResponse(Long speciesId, String scientificName, String koreaName, List<SpeciesImageQuery> images) {
         this.speciesId = speciesId;
         this.scientificName = scientificName;
         this.koreaName = koreaName;
