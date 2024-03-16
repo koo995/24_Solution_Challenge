@@ -30,8 +30,6 @@ public class SpeciesRepositoryCustomImpl implements SpeciesRepositoryCustom{
         }
         // todo 이게 맞냐? 이런식으로 처리하는게... 과연 조인을 쓰는게 맞는걸까? 차라리 쿼리문 2개가 나을수도 있지 않을까?
         SpeciesImageQuery speciesImageQuery = image.get(0);
-
-
         return SpeciesImagesResponse.builder()
                 .scientificName(speciesImageQuery.getScientificName())
                 .koreaName(speciesImageQuery.getKoreaName())
