@@ -24,16 +24,22 @@ class GeminiServiceTest {
     @Test
     void inferPrediction() throws Exception {
         // given
-        String fileName = "lion.jpeg";
-        MultipartFile file = new MockMultipartFile("file", fileName, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName));
+        String fileName1 = "lion.jpeg";
+        String fileName2 = "cat.jpeg";
+        MultipartFile file1 = new MockMultipartFile("file", fileName1, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName1));
+        MultipartFile file2 = new MockMultipartFile("file", fileName2, "image/jpeg", new FileInputStream("/Users/keonhongkoo/Downloads/"+fileName2));
 
         // when
-        InferPredictedResult inferPredictedResult = geminiMainService.inferPrediction(file);
+        InferPredictedResult inferPredictedResult1 = geminiMainService.inferPrediction(file1);
+        InferPredictedResult inferPredictedResult2 = geminiMainService.inferPrediction(file2);
 
         // then
-        assertThat(inferPredictedResult)
+        assertThat(inferPredictedResult1)
                 .extracting("livingThings", "scientificName", "koreaName", "kingdom")
                 .contains("true", "Panthera leo", "사자", "animal");
+        assertThat(inferPredictedResult2)
+                .extracting("livingThings", "scientificName", "koreaName", "kingdom")
+                .contains("true", "Felis catus", "고양이", "animal");
     }
 
 
