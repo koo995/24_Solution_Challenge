@@ -31,6 +31,7 @@ public class Member extends BaseEntity {
 
     private int score = 0;
 
+    @Column(unique = true)
     private String uid;
 
     @OneToMany(mappedBy = "member")

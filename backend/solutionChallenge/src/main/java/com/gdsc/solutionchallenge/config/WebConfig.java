@@ -2,6 +2,7 @@ package com.gdsc.solutionchallenge.config;
 
 import com.gdsc.solutionchallenge.auth.interceptor.FirebaseTokenInterceptor;
 import com.gdsc.solutionchallenge.auth.resolver.LoginMemberArgResolver;
+import com.gdsc.solutionchallenge.auth.service.AuthService;
 import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,7 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final MemberRepository memberRepository;
+    private final AuthService authService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -27,6 +28,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginMemberArgResolver(memberRepository));
+        resolvers.add(new LoginMemberArgResolver(authService));
     }
 }
