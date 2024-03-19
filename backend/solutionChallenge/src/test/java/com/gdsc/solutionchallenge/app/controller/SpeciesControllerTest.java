@@ -1,6 +1,7 @@
 package com.gdsc.solutionchallenge.app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdsc.solutionchallenge.IntegrationTestSupport;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
@@ -37,9 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
-@SpringBootTest
 @AutoConfigureMockMvc
-class SpeciesControllerTest {
+class SpeciesControllerTest extends IntegrationTestSupport {
 
     @Autowired
     private MockMvc mockMvc;

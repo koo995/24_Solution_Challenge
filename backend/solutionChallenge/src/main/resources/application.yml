@@ -6,6 +6,8 @@ spring:
         - common
       prod:
         - common
+      test:
+        - common
 ---
 spring:
   config:
@@ -16,6 +18,9 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
 ---
 spring:
   config:
@@ -26,7 +31,24 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
 ---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mysql://localhost:3306/local_solchell
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+---
+
 spring:
   config:
     activate:
@@ -38,8 +60,6 @@ spring:
       max-request-size: 10MB
 
   jpa:
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
         show_sql: true

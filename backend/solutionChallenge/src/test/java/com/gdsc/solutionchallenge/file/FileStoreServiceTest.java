@@ -1,23 +1,21 @@
 package com.gdsc.solutionchallenge.file;
 
+import com.gdsc.solutionchallenge.IntegrationTestSupport;
 import com.gdsc.solutionchallenge.app.exception.NoLatLngException;
 import com.gdsc.solutionchallenge.file.dto.FileStoreInfo;
 import com.google.type.LatLng;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatObject;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-class FileStoreServiceTest {
+class FileStoreServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private FileStoreService fileStoreService;

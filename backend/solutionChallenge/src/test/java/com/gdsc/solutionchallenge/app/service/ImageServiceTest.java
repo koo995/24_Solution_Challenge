@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.app.service;
 
+import com.gdsc.solutionchallenge.IntegrationTestSupport;
 import com.gdsc.solutionchallenge.ai.dto.InferPredictedResult;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
@@ -28,8 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Transactional
-@SpringBootTest
-class ImageServiceTest {
+class ImageServiceTest extends IntegrationTestSupport {
 
     @Autowired
     ImageRepository imageRepository;

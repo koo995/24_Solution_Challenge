@@ -1,5 +1,6 @@
 package com.gdsc.solutionchallenge.app.service;
 
+import com.gdsc.solutionchallenge.IntegrationTestSupport;
 import com.gdsc.solutionchallenge.app.domain.Image;
 import com.gdsc.solutionchallenge.app.domain.Species;
 import com.gdsc.solutionchallenge.app.dto.response.SpeciesImagesResponse;
@@ -7,23 +8,18 @@ import com.gdsc.solutionchallenge.app.repository.ImageRepository;
 import com.gdsc.solutionchallenge.app.repository.SpeciesRepository;
 import com.google.type.LatLng;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @Transactional
-@SpringBootTest
-class SpeciesServiceTest {
+class SpeciesServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private SpeciesService speciesService;
