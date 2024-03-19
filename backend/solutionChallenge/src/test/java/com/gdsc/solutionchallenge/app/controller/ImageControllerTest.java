@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 
@@ -64,20 +65,17 @@ class ImageControllerTest {
 
     @BeforeEach
     void createUserAndSignIn() throws Exception {
-        // firebase signup
         String testEmail = "testUser@example.com";
         String testPassword = "testPassword";
         String username = "testName";
-        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail(testEmail)
-                .setPassword(testPassword)
-                .setDisplayName(username);
-        UserRecord user = FirebaseAuth.getInstance().createUser(request);
+        UserRecord user = createFirebaseUserAccount(testEmail, testPassword, username);
         uid = user.getUid();
-        // get firebase project api key
-        HashMap map = objectMapper.readValue(new ClassPathResource(keyPath).getInputStream(), HashMap.class);
-        String apiKey = (String) map.get("web_api_key");
-        // signIn
+        String apiKey = getApiKey();
+        SignInResponse signInResponse = signInOnFirebase(testEmail, testPassword, apiKey);
+        idToken = signInResponse.getIdToken();
+    }
+
+    private SignInResponse signInOnFirebase(String testEmail, String testPassword, String apiKey) {
         RestTemplate restTemplate = new RestTemplate();
         SignInRequest signInRequest = SignInRequest.builder()
                 .email(testEmail)
@@ -89,7 +87,21 @@ class ImageControllerTest {
                 .queryParam("key", apiKey)
                 .build().toUri();
         SignInResponse signInResponse = restTemplate.postForObject(uri, signInRequest, SignInResponse.class);
-        idToken = signInResponse.getIdToken();
+        return signInResponse;
+    }
+
+    private String getApiKey() throws IOException {
+        HashMap map = objectMapper.readValue(new ClassPathResource(keyPath).getInputStream(), HashMap.class);
+        String apiKey = (String) map.get("web_api_key");
+        return apiKey;
+    }
+
+    private static UserRecord createFirebaseUserAccount(String testEmail, String testPassword, String username) throws FirebaseAuthException {
+        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
+                .setEmail(testEmail)
+                .setPassword(testPassword)
+                .setDisplayName(username);
+        return FirebaseAuth.getInstance().createUser(request);
     }
 
     @AfterEach
