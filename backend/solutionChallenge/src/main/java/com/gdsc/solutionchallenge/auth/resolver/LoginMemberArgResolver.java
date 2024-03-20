@@ -3,7 +3,6 @@ package com.gdsc.solutionchallenge.auth.resolver;
 import com.gdsc.solutionchallenge.auth.annotation.Login;
 import com.gdsc.solutionchallenge.auth.service.AuthService;
 import com.gdsc.solutionchallenge.member.domain.Member;
-import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import com.google.firebase.auth.FirebaseToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

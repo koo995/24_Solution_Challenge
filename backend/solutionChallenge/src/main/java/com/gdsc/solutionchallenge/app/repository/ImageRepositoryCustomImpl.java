@@ -1,9 +1,7 @@
 package com.gdsc.solutionchallenge.app.repository;
 
-import com.gdsc.solutionchallenge.app.domain.QSpecies;
 import com.gdsc.solutionchallenge.member.dto.request.FilterCondition;
 import com.gdsc.solutionchallenge.member.dto.response.ImageDto;
-import com.gdsc.solutionchallenge.member.dto.response.QImageDto;
 import com.gdsc.solutionchallenge.member.dto.response.QImageDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.gdsc.solutionchallenge.app.domain.QImage.image;
-import static com.gdsc.solutionchallenge.app.domain.QSpecies.*;
+import static com.gdsc.solutionchallenge.app.domain.QSpecies.species;
 import static com.gdsc.solutionchallenge.member.domain.QMember.member;
 
 @RequiredArgsConstructor

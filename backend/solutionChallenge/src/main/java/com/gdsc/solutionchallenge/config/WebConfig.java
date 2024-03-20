@@ -3,7 +3,6 @@ package com.gdsc.solutionchallenge.config;
 import com.gdsc.solutionchallenge.auth.interceptor.FirebaseTokenInterceptor;
 import com.gdsc.solutionchallenge.auth.resolver.LoginMemberArgResolver;
 import com.gdsc.solutionchallenge.auth.service.AuthService;
-import com.gdsc.solutionchallenge.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
