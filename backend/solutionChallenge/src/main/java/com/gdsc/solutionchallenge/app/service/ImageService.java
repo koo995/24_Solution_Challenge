@@ -59,7 +59,7 @@ public class ImageService {
     private Species getSpecies(UserImageServiceRequest request) {
         InferPredictedResult prediction = request.getPrediction();
         Species species = speciesRepository.findByScientificName(prediction.getScientificName())
-                .orElse(new Species(prediction.getScientificName(), prediction.getKoreaName(), prediction.getKingdom()));
+                .orElseGet(() -> new Species(prediction.getScientificName(), prediction.getKoreaName(), prediction.getKingdom()));
         return species;
     }
 }
