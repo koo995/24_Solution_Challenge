@@ -1,4 +1,4 @@
-package com.gdsc.solutionchallenge.auth.controller;
+package com.gdsc.solutionchallenge.member.controller;
 
 import com.gdsc.solutionchallenge.auth.annotation.Login;
 import com.gdsc.solutionchallenge.member.domain.Member;
@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class AuthController {
+public class MemberController {
 
     private final MemberService memberService;
 
     @GetMapping("/api/v1/auth/profile")
     public ProfileResponseDto collection(@Login Member loginMember, @ModelAttribute FilterCondition filterCondition, Pageable pageable) {
-        log.info("filterCondition={}", filterCondition);
-        log.info("filterCondition.getKingdom={}", filterCondition.getKingdom());
         ProfileResponseDto profileResponse = memberService.getProfile(loginMember.getId(), filterCondition, pageable);
         profileResponse.setUsername(loginMember.getUsername());
         profileResponse.setCurrentScore(loginMember.getScore());
