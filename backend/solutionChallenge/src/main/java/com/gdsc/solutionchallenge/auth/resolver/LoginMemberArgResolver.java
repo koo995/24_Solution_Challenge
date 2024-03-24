@@ -31,7 +31,6 @@ public class LoginMemberArgResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         FirebaseToken decodedToken = (FirebaseToken) request.getAttribute("decodedToken");
-        Member member = authService.JoinAndLogin(decodedToken);
-        return member;
+        return authService.JoinAndLogin(decodedToken);
     }
 }
