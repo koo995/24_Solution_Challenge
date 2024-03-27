@@ -59,7 +59,7 @@ class SpeciesControllerTest extends IntegrationTestSupport {
     @Value("${firebase.credential.resource-path}")
     private String keyPath;
 
-    private String firebaseSignInUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword";
+    private final String firebaseSignInUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword";
 
 
 
