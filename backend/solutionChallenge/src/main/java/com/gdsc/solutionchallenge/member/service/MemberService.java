@@ -1,6 +1,7 @@
 package com.gdsc.solutionchallenge.member.service;
 
 import com.gdsc.solutionchallenge.app.repository.ImageRepository;
+import com.gdsc.solutionchallenge.member.domain.Member;
 import com.gdsc.solutionchallenge.member.dto.request.FilterCondition;
 import com.gdsc.solutionchallenge.member.dto.response.EmptyProfileResponseDto;
 import com.gdsc.solutionchallenge.member.dto.response.ImageDto;
@@ -20,11 +21,18 @@ public class MemberService {
 
     private final ImageRepository imageRepository;
 
-    public ProfileResponseDto getProfile(Long memberId, FilterCondition filterCondition, Pageable pageable) {
-        PageImpl<ImageDto> imagePage = imageRepository.findImageByMemberId(memberId, filterCondition, pageable);
+    public ProfileResponseDto getProfile(Member member, FilterCondition filterCondition, Pageable pageable) {
+        PageImpl<ImageDto> imagePage = imageRepository.findImageByMemberId(member.getId(), filterCondition, pageable);
         if (imagePage.getTotalElements() == 0) {
-            return new EmptyProfileResponseDto();
+            return EmptyProfileResponseDto.builder()
+                    .username(member.getUsername())
+                    .build();
         }
-        return new MainProfileResponseDto(imagePage.getTotalElements(), imagePage);
+        return MainProfileResponseDto.builder()
+                .totalImage(imagePage.getTotalElements())
+                .image(imagePage)
+                .score(member.getScore())
+                .username(member.getUsername())
+                .build();
     }
 }

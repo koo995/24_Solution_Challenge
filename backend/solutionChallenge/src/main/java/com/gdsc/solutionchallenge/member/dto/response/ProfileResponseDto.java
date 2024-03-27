@@ -3,11 +3,15 @@ package com.gdsc.solutionchallenge.member.dto.response;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
 public abstract class ProfileResponseDto {
 
-    private String username;
+    private final String username;
 
-    private int currentScore;
+    private final int currentScore;
+
+    public ProfileResponseDto(String username, int score) {
+        this.username = username;
+        this.currentScore = score;
+    }
 }

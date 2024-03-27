@@ -20,9 +20,6 @@ public class MemberController {
 
     @GetMapping("/api/v1/auth/profile")
     public ProfileResponseDto collection(@Login Member loginMember, @ModelAttribute FilterCondition filterCondition, Pageable pageable) {
-        ProfileResponseDto profileResponse = memberService.getProfile(loginMember.getId(), filterCondition, pageable);
-        profileResponse.setUsername(loginMember.getUsername());
-        profileResponse.setCurrentScore(loginMember.getScore());
-        return profileResponse;
+        return memberService.getProfile(loginMember, filterCondition, pageable);
     }
 }
