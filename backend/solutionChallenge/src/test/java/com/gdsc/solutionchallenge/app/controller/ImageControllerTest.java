@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -71,11 +70,11 @@ class ImageControllerTest extends IntegrationTestSupport {
         UserRecord user = createFirebaseUserAccount(testEmail, testPassword, username);
         uid = user.getUid();
         String apiKey = getApiKey();
-        SignInResponse signInResponse = signInOnFirebase(testEmail, testPassword, apiKey);
+        SignInResponse signInResponse = signInFirebase(testEmail, testPassword, apiKey);
         idToken = signInResponse.getIdToken();
     }
 
-    private SignInResponse signInOnFirebase(String testEmail, String testPassword, String apiKey) {
+    private SignInResponse signInFirebase(String testEmail, String testPassword, String apiKey) {
         RestTemplate restTemplate = new RestTemplate();
         SignInRequest signInRequest = SignInRequest.builder()
                 .email(testEmail)
