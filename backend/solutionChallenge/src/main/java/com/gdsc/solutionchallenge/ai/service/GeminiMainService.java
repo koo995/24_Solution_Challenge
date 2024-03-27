@@ -33,7 +33,7 @@ public class GeminiMainService {
         try {
             String result = prediction(file, prompt);
             InferPredictedResult inferPredictedResult = objectMapper.readValue(result, InferPredictedResult.class);
-            if (inferPredictedResult.getLivingThings() == "false") {
+            if (inferPredictedResult.getLivingThings().equals("false")) {
                 throw new NoCreatureException();
             }
             return inferPredictedResult;
@@ -55,10 +55,10 @@ public class GeminiMainService {
         } catch (JsonProcessingException e) {
             throw new GeminiException();
         }
-        if (booleanPredictedResult.getLivingThings() == "false") {
+        if (booleanPredictedResult.getLivingThings().equals("false")) {
             throw new NoCreatureException();
         }
-        if (booleanPredictedResult.getInferResult() == "false") {
+        if (booleanPredictedResult.getInferResult().equals("false")) {
             return false;
         }
         return true;
