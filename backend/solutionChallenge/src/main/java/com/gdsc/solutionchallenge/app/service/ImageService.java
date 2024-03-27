@@ -35,13 +35,13 @@ public class ImageService {
         Species species = getSpecies(request);
         Image image = getImage(request);
         Member loginMember = request.getLoginMember();
-        int score = loginMember.addScore(CREATESCORE);
+        loginMember.addScore(CREATESCORE);
         image.setSpecies(species);
         image.setMember(loginMember);
         // 이미지포스트 저장
         speciesRepository.save(species);
         imageRepository.save(image);
-        return new ImageCreateResponse(species.getScientificName(), species.getKoreaName(), image.getId(), score);
+        return new ImageCreateResponse(species.getScientificName(), species.getKoreaName(), image.getId(), loginMember.getScore());
     }
 
     private Image getImage(UserImageServiceRequest request) {
