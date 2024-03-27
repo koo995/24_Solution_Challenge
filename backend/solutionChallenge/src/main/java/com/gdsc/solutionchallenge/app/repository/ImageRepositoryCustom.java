@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface ImageRepositoryCustom {
-     PageImpl<ImageDto> findByMemberId(Long memberId, FilterCondition filterCondition, Pageable pageable);
+     PageImpl<ImageDto> findImageByMemberId(Long memberId, FilterCondition filterCondition, Pageable pageable);
 }

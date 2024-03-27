@@ -22,7 +22,7 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
 
     // 혹시 카테고리 분리 할 수 있으니 queryDsl 을 이용하자.
     @Override
-    public PageImpl<ImageDto> findByMemberId(Long memberId, FilterCondition filterCondition, Pageable pageable) {
+    public PageImpl<ImageDto> findImageByMemberId(Long memberId, FilterCondition filterCondition, Pageable pageable) {
         Long total = jpaQueryFactory
                 .select(image.count())
                 .from(image)

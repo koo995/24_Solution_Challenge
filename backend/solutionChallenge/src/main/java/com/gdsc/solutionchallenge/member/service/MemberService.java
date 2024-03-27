@@ -21,7 +21,7 @@ public class MemberService {
     private final ImageRepository imageRepository;
 
     public ProfileResponseDto getProfile(Long memberId, FilterCondition filterCondition, Pageable pageable) {
-        PageImpl<ImageDto> imagePage = imageRepository.findByMemberId(memberId, filterCondition, pageable);
+        PageImpl<ImageDto> imagePage = imageRepository.findImageByMemberId(memberId, filterCondition, pageable);
         if (imagePage.getTotalElements() == 0) {
             return new EmptyProfileResponseDto();
         }
