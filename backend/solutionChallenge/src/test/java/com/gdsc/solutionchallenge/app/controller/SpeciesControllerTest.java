@@ -145,7 +145,11 @@ class SpeciesControllerTest extends IntegrationTestSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.images.length()", is(10)));
+                .andExpect(jsonPath("$.scientificName").value("sciName5"))
+                .andExpect(jsonPath("$.images.length()", is(10)))
+                .andExpect(jsonPath("$.images[0].location.latitude").value("36.5"))
+                .andExpect(jsonPath("$.images[0].location.longitude").value("124.5"));
+
     }
 
     @DisplayName("이미지가 없는 종을 요청하면 예외가 발생한다.")
