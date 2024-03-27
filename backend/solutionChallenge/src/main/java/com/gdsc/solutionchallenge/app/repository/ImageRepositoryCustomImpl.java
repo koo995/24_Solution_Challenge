@@ -20,7 +20,6 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    // 혹시 카테고리 분리 할 수 있으니 queryDsl 을 이용하자.
     @Override
     public PageImpl<ImageDto> findImageByMemberId(Long memberId, FilterCondition filterCondition, Pageable pageable) {
         Long total = jpaQueryFactory
@@ -31,6 +30,8 @@ public class ImageRepositoryCustomImpl implements ImageRepositoryCustom {
                         StringUtils.hasText(filterCondition.getKingdom()) ? species.kingdom.eq(filterCondition.getKingdom()) : null)
                 .fetchOne();
 
+        // todo 조인을 2번 하는데... 여기서 kingdom 값이 없다면 굳이 조인을 또 할 필요가 잇을까?
+        // 그리고... 필터링 컨디션이 바뀐다면 이걸 또 반복해야하는데.. 조금 더 빠르게 하기 위해서 캐시도 이용가능하지 않을까?
         List<ImageDto> images = jpaQueryFactory
                 .select(new QImageDto(image.id, image.fullPath))
                 .from(member)
