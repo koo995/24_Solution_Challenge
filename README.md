@@ -1,82 +1,28 @@
-# 24_Solution_Challenge
+# ECO SPOT - 24_Solution_Challenge
 
 2024 GDSC Solution Challenge
 
-## How to Collaborate
+## 1. What is problem?
+- Conserving ecological diversity is curcial, in what ways can we actively contribute to biodiversity conservation and ensure its preservation?
+- we created ecological map using AI to increase accuracy and provide missions to attract people's participation
+## 2. Feature
+- Ecological Map
+  - Develop a comprehensive scological map to visualize and understand the distribution and habitas of various of species.
+- AI
+  - Utilize advanced AI technology to accurately identify and classify flora and fauna, enhancing the precision of species data.
+- Challenge
+  - Introduce interactive challenges and missions to captivate user interest, encouraging active participation and contribution to biodiversity conservation.
 
-### 1. Fork
+## 2. ERD
+<img width=500 src="https://github.com/koo995/3D_rendering/assets/107671886/bdbdc9de-53fe-4a26-9dea-529622aef83a">
 
-- Fork this repository to your own account.
+## 3. TECH STACK
+- Flutter
+- Firebase
+- JDK17
+- Spring, Spring boot
+- MySQL
+- GCP, Gemini pro
 
-### 2. Clone
-
-- Clone the repository from your account to your local machine.
-  ```sh
-  git clone <forked repository address>
-  ```
-
-### 3. Add the Upstream Repository
-
-- Add the original repository where the project was initially created as an upstream source.
-  ```sh
-  git remote add upstream <original repo address>
-  git remote add upstream https://github.com/jeonghyeonee/24_Solution_Challenge.git
-  ```
-
-### 4. Verify Remote Repositories
-
-- Check the list of remote repositories to ensure that your repository is set as 'origin' and the project's repository is set as 'upstream.'
-  ```sh
-  git remote -v
-  ```
-
-### 5. Create a Branch
-
-- Work on your changes in a new branch on your local machine.
-- Follow the branch naming convention: `ID/Name/IssueNumber`.
-  ```sh
-  # Example: jeonghyeonee/updateReadme/8
-  ```
-
-### 6. Add & Commit
-
-- Add your changes using the following command:
-  ```sh
-  git add . or <specific file>
-  ```
-- Commit your changes with a meaningful commit message using either `-m` or `-s` (signed-off) option.
-  - If you use `-s`, please provide a summary of your commit message.
-
-### 7. Push
-
-- Push your changes to your repository on the branch you created.
-  ```sh
-  git push origin <branchName>
-  ```
-
-### 8. Create a Pull Request
-
-- Go to your repository on GitHub and click the "Compare & Pull Request" button.
-- Assign a reviewer if necessary.
-
-### 9. Code Review & Merge Pull Request
-
-- The reviewer will perform a code review and decide whether to merge the pull request if there are no issues.
-
-### 10. Synchronization and Branch Deletion After Merging
-
-- After the merge is completed in the original repository, it's important to synchronize your local `main` branch with the code in the original repository (jeonghyeonee/Memoriary).
-- To do this, go to your own GitHub repository, confirm that the active branch is `main`, and click the `Sync fork` button, then press the `Update branch` button.
-- To synchronize your local `main` branch with the changes, you can execute the following commands to delete the working local branch:
-
-```sh
-  # Synchronize the code
-  git checkout main
-  git pull origin main
-
-  # Forcefully delete the local branch
-  git branch -D <branch>
-
-  # Delete the remote branch
-  git push origin --delete <branch>
-```
+## 4. YOUTUBE VIDEO
+[링크 클릭](https://www.youtube.com/watch?v=OBB-oj9h3Ew)
