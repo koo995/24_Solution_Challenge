@@ -25,4 +25,4 @@
 - GCP, Gemini pro
 
 ## 4. YOUTUBE VIDEO
-[링크 클릭](https://www.youtube.com/watch?v=OBB-oj9h3Ew)
+[Link click](https://www.youtube.com/watch?v=OBB-oj9h3Ew)
