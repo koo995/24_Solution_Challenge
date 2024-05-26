@@ -14,7 +14,7 @@
   - Introduce interactive challenges and missions to captivate user interest, encouraging active participation and contribution to biodiversity conservation.
 
 ## 2. ERD
-<img width=500 src="https://github.com/koo995/3D_rendering/assets/107671886/bdbdc9de-53fe-4a26-9dea-529622aef83a">
+<img width=500 src="https://github.com/koo995/algorithm_note/assets/107671886/3ccd1b51-6222-47c4-8e02-e77c20b95112">
 
 ## 3. TECH STACK
 - Flutter
