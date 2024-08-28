@@ -13,7 +13,7 @@
 - Challenge
   - Introduce interactive challenges and missions to captivate user interest, encouraging active participation and contribution to biodiversity conservation.
 ## 3. Architecture
-<img width="500" alt="arch" src="https://github.com/user-attachments/assets/7722224e-b134-48be-8693-9eb2cc5c9096">
+<img width="500" alt="arch" src="https://github.com/user-attachments/assets/57a740c1-78c3-4492-b314-ab67c9c0063f">
 
 ## 4. ERD
 <img width=500 src="https://github.com/koo995/algorithm_note/assets/107671886/3ccd1b51-6222-47c4-8e02-e77c20b95112">
