@@ -12,11 +12,13 @@
   - Utilize advanced AI technology to accurately identify and classify flora and fauna, enhancing the precision of species data.
 - Challenge
   - Introduce interactive challenges and missions to captivate user interest, encouraging active participation and contribution to biodiversity conservation.
+## 3. Architecture
+<img width="500" alt="arch" src="https://github.com/user-attachments/assets/7722224e-b134-48be-8693-9eb2cc5c9096">
 
-## 2. ERD
+## 4. ERD
 <img width=500 src="https://github.com/koo995/algorithm_note/assets/107671886/3ccd1b51-6222-47c4-8e02-e77c20b95112">
 
-## 3. TECH STACK
+## 5. TECH STACK
 - Flutter
 - Firebase
 - JDK17
@@ -24,5 +26,5 @@
 - MySQL
 - GCP, Gemini pro
 
-## 4. YOUTUBE VIDEO
+## 6. YOUTUBE VIDEO
 [click](https://www.youtube.com/watch?v=OBB-oj9h3Ew)
