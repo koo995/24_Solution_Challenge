@@ -1,4 +1,5 @@
 # ECO SPOT - 24_Solution_Challenge
+> 기술 스택: Spring Boot, Spring Data JPA, QueryDSL, MySQL, GCP(Google Cloud Platform), Firebase
 
 2024 GDSC Solution Challenge
 
@@ -12,8 +13,6 @@
   - Utilize advanced AI technology to accurately identify and classify flora and fauna, enhancing the precision of species data.
 - Challenge
   - Introduce interactive challenges and missions to captivate user interest, encouraging active participation and contribution to biodiversity conservation.
-
-> 기술 스택: Spring Boot, Spring Data JPA, QueryDSL, MySQL, GCP(Google Cloud Platform), Firebase
 
 ## 2024.01 ~ 2024.02
 본 프로젝트는 4명의 팀원이 함께 진행했습니다. 저는 백엔드를 전담했으며, 클라이언트는 안드로이드 앱으로 구현되었습니다.
