@@ -1,4 +1,4 @@
-# ECO SPOT - 24_Solution_Challenge
+# Eco-Spot(팀 프로젝트)
 > 기술 스택: Spring Boot, Spring Data JPA, QueryDSL, MySQL, GCP(Google Cloud Platform), Firebase
 
 2024 GDSC Solution Challenge
@@ -14,13 +14,15 @@
 - Challenge
   - Introduce interactive challenges and missions to captivate user interest, encouraging active participation and contribution to biodiversity conservation.
 
-# Eco-Spot(팀 프로젝트)
-> 기술 스택: Spring Boot, Spring Data JPA, QueryDSL, MySQL, GCP(Google Cloud Platform), Firebase
-> 
-> GitHub: [https://github.com/koo995/24_Solution_Challenge](https://github.com/koo995/24_Solution_Challenge)
-
 ## 2024.01 ~ 2024.02
-본 프로젝트는 4명의 팀원이 함께 진행했습니다. 저는 백엔드를 전담했으며, 클라이언트는 안드로이드 앱으로 구현되었습니다.
+* 본 프로젝트는 4명의 팀원이 함께 진행했습니다. 저는 백엔드를 전담했으며, 클라이언트는 안드로이드 앱으로 구현되었습니다.
+
+* 매주 오프라인 미팅을 통해 4명의 팀원이 프로젝트 진행 상황과 의견을 공유
+
+  초기에는 온라인으로 미팅을 진행했으나 의사소통에 어려움이 많아 오프라인 미팅으로 전환했습니다. 그러나 팀원들 간 구현 역량과 프로젝트 목표에 차이가 있어 각자의 현재 상황을 파악하고 공유할 필요성을 느꼈습니다.
+
+  이에 팀원들과 솔직한 대화를 나누어 각자의 강점과 약점을 공유했고, 이를 바탕으로 팀원들의 역할을 효과적으로 분담. 저는 이 과정에서 백엔드를 전담하게 되었습니다.
+
 
 ## 프로젝트 소개
 AI 서비스 Gemini를 활용해 생태 지도를 만들어가는 애플리케이션 서비스입니다.
@@ -33,13 +35,7 @@ AI 서비스 Gemini를 활용해 생태 지도를 만들어가는 애플리케�
 ## Architecture
 <img src="https://github.com/user-attachments/assets/57a740c1-78c3-4492-b314-ab67c9c0063f" width=80%>
 
-## 개요
-
-* 매주 오프라인 미팅을 통해 4명의 팀원이 프로젝트 진행 상황과 의견을 공유
-
-  초기에는 온라인으로 미팅을 진행했으나 의사소통에 어려움이 많아 오프라인 미팅으로 전환했습니다. 그러나 팀원들 간 구현 역량과 프로젝트 목표에 차이가 있어 각자의 현재 상황을 파악하고 공유할 필요성을 느꼈습니다.
-
-  이에 팀원들과 솔직한 대화를 나누어 각자의 강점과 약점을 공유했고, 이를 바탕으로 팀원들의 역할을 효과적으로 분담. 저는 이 과정에서 백엔드를 전담하게 되었습니다.
+## 기술 요약
 
 * GCP를 활용해 간단한 인프라를 구성
 
@@ -57,12 +53,11 @@ AI 서비스 Gemini를 활용해 생태 지도를 만들어가는 애플리케�
 * Firebase 인증을 활용한 자동 회원가입과 로그인 과정의 동시성 이슈
   > [자세히 보기: [https://github.com/koo995/portfolio/blob/main/eco-spot/transaction.md](https://github.com/koo995/portfolio/blob/main/eco-spot/transaction.md)]
   
-  인증 과정에서 중복 회원가입으로 인한 DB에 동일한 데이터가 2번 들어가는 문제가 발생했습니다. 중복 문제는 유니크 제약조건을 적용하여 간단히 해결할 수 있었지만, 이 과정에서 트랜잭션이 적용되지 않은 코드를 발견했습니다.
+  인증 과정에서 중복 회원가입으로 인한 DB에 동일한 데이터가 중복해서 들어가는 문제가 발생했습니다. 중복 문제는 유니크 제약조건을 적용하여 간단히 해결할 수 있었지만, 이 과정에서 트랜잭션이 적용되지 않은 코드를 발견했습니다.
 
-  자동 회원가입과 로그인 구현을 위해 트랜잭션을 적용했으나, 원자성이 제대로 보장되지 않아 문제가 지속되었습니다. 문제 상황을 재구현하고 디버깅을 통해 분석한 결과, Spring AOP의 트랜잭션 처리와 애플리케이션의 원자성과 DB 트랜잭션의 원자성에 대한 이해가 부족했던 것이 원인이였습니다.
+  이후 자동 회원가입과 로그인 구현을 위해 트랜잭션을 적용했으나, 원자성이 제대로 보장되지 않아 문제가 지속되었습니다. 문제 상황을 재구현하고 디버깅을 통해 분석한 결과, Spring AOP의 트랜잭션 처리, 애플리케이션의 원자성, DB 트랜잭션의 원자성에 대한 이해가 부족했던 것이 원인이였습니다.
 
-  이후 유니크 제약 조건을 적용하고 DataIntegrityViolationException 발생 시 재시도 로직을 추가하여 해결으나, 이 예외는 유니크 제약 조건 위반 외의 경우에도 발생할 수 있어 의도하지 않은 재시도가 실행될 수 있다는 문제가 존재했습니다. 최종적으로 프로세스가 잘못되었음을 인지하고 API 호출 프로세스를 분리하는 방식 선택했습니다.
-
+  이후 유니크 제약 조건을 적용하고 DataIntegrityViolationException 발생 시 재시도 로직을 추가하여 해결으나, 이 예외는 유니크 제약 조건 위반 외의 경우에도 발생할 수 있어 의도하지 않은 재시도가 실행될 수 있다는 문제가 존재했습니다. 최종적으로 프로세스가 잘못되었음을 인지하고 API 호출 프로세스를 분리하는 방식을 고려할 수 있었습니다.
 
 ## ERD
 <img width=500 src="https://github.com/koo995/algorithm_note/assets/107671886/3ccd1b51-6222-47c4-8e02-e77c20b95112">
